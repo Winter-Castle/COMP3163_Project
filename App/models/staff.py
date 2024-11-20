@@ -7,12 +7,6 @@ class Staff(User):
   __tablename__ = 'staff'
   ID = db.Column(db.Integer, db.ForeignKey('user.ID'), primary_key=True)
   reviews = db.relationship('Review', backref='staffReviews', lazy='joined')
-  reports = db.relationship('IncidentReport',
-                            backref='staffReports',
-                            lazy='joined')
-  pendingAccomplishments = db.relationship('Accomplishment',
-                                           backref='studentaccomplishments',
-                                           lazy='joined')
 
   __mapper_args__ = {"polymorphic_identity": "staff"}
 
@@ -24,8 +18,6 @@ class Staff(User):
                      password=password,
                      faculty=faculty)
     self.reviews = []
-    self.reports = []
-    self.pendingAccomplishments = []
 
 
 #return staff details on json format
@@ -45,11 +37,6 @@ class Staff(User):
         "faculty":
         self.faculty,
         "reviews": [review.to_json() for review in self.reviews],
-        "reports": [report.to_json() for report in self.reports],
-        "pendingAccomplishments": [
-            pendingAccomplishment.to_json()
-            for pendingAccomplishment in self.pendingAccomplishments
-        ]
     }
 
   def __repr__(self):
