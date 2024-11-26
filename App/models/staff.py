@@ -18,8 +18,8 @@ class Staff(User):
                      password=password,
                      faculty=faculty)
     # declare logic for upvote command 
-    creates a singleton instance of uppvote command ->parameters which define the logic 
-    upvoteCmd(reviews, behavior)
+    # creates a singleton instance of uppvote command ->parameters which define the logic 
+    # upvoteCmd(reviews, behavior)
     # declare logic for downvote command
 
 
