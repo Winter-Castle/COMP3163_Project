@@ -1,3 +1,4 @@
+from App.models.SentimentCommand import SentimentCommand
 class UpvoteCommand(SentimentCommand):
 
     _instance = None
