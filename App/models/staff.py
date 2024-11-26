@@ -1,7 +1,8 @@
 from App.database import db
 from .user import User
 from .student import Student
-
+from .DownvoteCommand import DownvoteCommand
+from .UpvoteCommand import UpvoteCommand
 
 class Staff(User):
   __tablename__ = 'staff'
@@ -20,8 +21,9 @@ class Staff(User):
     # declare logic for upvote command 
     # creates a singleton instance of uppvote command ->parameters which define the logic 
     # upvoteCmd(reviews, behavior)
+    s1 = UpvoteCommand()
     # declare logic for downvote command
-
+    s2 = DownvoteCommand()
 
 #return staff details on json format
 
