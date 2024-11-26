@@ -1,12 +1,11 @@
 from App.database import db
 from .user import User
 from .student import Student
-
+from .review import Review
 
 class Staff(User):
   __tablename__ = 'staff'
   ID = db.Column(db.Integer, db.ForeignKey('user.ID'), primary_key=True)
-  reviews = db.relationship('Review', backref='staffReviews', lazy='joined')
 
   __mapper_args__ = {"polymorphic_identity": "staff"}
 
@@ -17,7 +16,11 @@ class Staff(User):
                      email=email,
                      password=password,
                      faculty=faculty)
-    self.reviews = []
+    # declare logic for upvote command 
+    creates a singleton instance of uppvote command ->parameters which define the logic 
+    upvoteCmd(reviews, behavior)
+    # declare logic for downvote command
+    
 
 
 #return staff details on json format
@@ -35,9 +38,9 @@ class Staff(User):
         "email":
         self.email,
         "faculty":
-        self.faculty,
-        "reviews": [review.to_json() for review in self.reviews],
+        self.faculty
     }
 
   def __repr__(self):
     return f'<Admin {self.ID} :{self.email}>'
+  
