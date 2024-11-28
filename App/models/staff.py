@@ -1,11 +1,13 @@
 from App.database import db
 from .user import User
 from .student import Student
-from .review import Review
+from .DownvoteCommand import DownvoteCommand
+from .UpvoteCommand import UpvoteCommand
 
 class Staff(User):
   __tablename__ = 'staff'
   ID = db.Column(db.Integer, db.ForeignKey('user.ID'), primary_key=True)
+  
 
   __mapper_args__ = {"polymorphic_identity": "staff"}
 
@@ -17,11 +19,11 @@ class Staff(User):
                      password=password,
                      faculty=faculty)
     # declare logic for upvote command 
-    creates a singleton instance of uppvote command ->parameters which define the logic 
-    upvoteCmd(reviews, behavior)
+    # creates a singleton instance of uppvote command ->parameters which define the logic 
+    # upvoteCmd(reviews, behavior)
+    s1 = UpvoteCommand()
     # declare logic for downvote command
-    
-
+    s2 = DownvoteCommand()
 
 #return staff details on json format
 
