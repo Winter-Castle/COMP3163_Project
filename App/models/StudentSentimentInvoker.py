@@ -1,6 +1,5 @@
 from App.database import db
-from App.models import SentimentCommand 
-
+from App.models.sentimentCommand import SentimentCommand 
 
 class StudentSentimentInvoker(db.Model):
     id = db.Column(db.Integer, primary_key=True)

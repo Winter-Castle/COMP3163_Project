@@ -40,9 +40,9 @@ class Staff(User):
         "email":
         self.email,
         "faculty":
-        self.faculty,
-        "reviews": [review.to_json() for review in self.reviews],
+        self.faculty
     }
 
   def __repr__(self):
     return f'<Admin {self.ID} :{self.email}>'
+  
