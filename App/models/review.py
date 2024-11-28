@@ -11,12 +11,14 @@ class Review(db.Model):
     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     details = db.Column(db.String(400), nullable=False)
 
+
     def __init__(self, taggedStudentID, createdByStaffID, details, isPositive=False):
         self.taggedStudentID = taggedStudentID
         self.createdByStaffID = createdByStaffID
         self.details = details
         self.isPositive = isPositive
         self.dateCreated = datetime.now()
+
 
     def apply_sentiment(self, is_positive: bool):
         """Update the review with new sentiment."""
