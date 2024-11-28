@@ -1,16 +1,12 @@
-from App.models.SentimentCommand import SentimentCommand
+from App.models.sentimentCommand import SentimentCommand
+from App.models.review import Review
+
 class DownvoteCommand(SentimentCommand):
-
-    _instance = None
-
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
     
-    def __init__(self):
+    def __init__(self, review: Review):
+        self.review = review
         pass 
 
     def execute(self):
-        print("Downvoting")
+        self.review.apply_sentiment(is_positive=False)
         #have to place review logic here 
