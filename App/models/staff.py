@@ -18,12 +18,6 @@ class Staff(User):
                      email=email,
                      password=password,
                      faculty=faculty)
-    # declare logic for upvote command 
-    # creates a singleton instance of uppvote command ->parameters which define the logic 
-    # upvoteCmd(reviews, behavior)
-    s1 = UpvoteCommand()
-    # declare logic for downvote command
-    s2 = DownvoteCommand()
 
 #return staff details on json format
 
