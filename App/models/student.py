@@ -26,5 +26,4 @@ class Student(db.Model):
         }
     
     def __repr__(self):
-        return f"<Student {self.username}>"
-
+        return f"<Student ID: {self.ID}, Name: {self.fullName}, Degree: {self.degree}>"
