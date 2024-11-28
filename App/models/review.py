@@ -11,19 +11,14 @@ class Review(db.Model):
     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     points = db.Column(db.Float, nullable=False)
     details = db.Column(db.String(400), nullable=False)
-    studentSeen = db.Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, taggedStudentID, createdByStaffID, isPositive, points, details, studentSeen=False):
+    def __init__(self, taggedStudentID, createdByStaffID, isPositive, points, details):
         self.taggedStudentID = taggedStudentID
         self.createdByStaffID = createdByStaffID
         self.isPositive = isPositive
         self.points = points
         self.details = details
         self.dateCreated = datetime.now()
-        self.studentSeen = studentSeen
-
-    def get_id(self):
-        return self.ID
 
     def to_json(self):
         return {
