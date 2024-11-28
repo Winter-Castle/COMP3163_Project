@@ -9,4 +9,4 @@ class DownvoteCommand(SentimentCommand):
 
     def execute(self):
         self.review.apply_sentiment(is_positive=False)
-        #have to place review logic here 
+        

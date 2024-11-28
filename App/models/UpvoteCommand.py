@@ -7,6 +7,6 @@ class UpvoteCommand(SentimentCommand):
         self.review = review
         pass 
 
-    def execute(self, review: Review, point_change: float):
+    def execute(self):
         self.review.apply_sentiment(is_positive=True)
-        #have to place review logic here 
+        
