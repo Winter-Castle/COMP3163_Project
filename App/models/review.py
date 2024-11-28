@@ -20,9 +20,6 @@ class Review(db.Model):
         self.details = details
         self.dateCreated = datetime.now()
 
-    def get_id(self):
-        return self.ID
-
     def to_json(self):
         return {
             "reviewID": self.ID,

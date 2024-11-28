@@ -13,3 +13,4 @@ class DownvoteCommand(SentimentCommand):
 
     def execute(self):
         print("Downvoting")
+        #have to place review logic here 
