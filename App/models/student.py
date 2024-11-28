@@ -24,3 +24,6 @@ class Student(db.Model):
             "degree": self.degree,
             "reviews": [review.to_json() for review in self.reviews]
         }
+    
+    def __repr__(self):
+        return f"<Student ID: {self.ID}, Name: {self.fullName}, Degree: {self.degree}>"
