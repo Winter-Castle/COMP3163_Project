@@ -2,8 +2,7 @@ from App.database import db
 from App.models.sentimentCommand import SentimentCommand 
 
 class StudentSentimentInvoker(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
+    
     def __init__(self):
         self.command = None 
 
