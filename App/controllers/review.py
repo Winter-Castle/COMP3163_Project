@@ -1,100 +1,104 @@
-from App.models import Review
 from App.database import db
+from App.models import Review
 
 
-def create_review(staff, student, isPositive, points, details):
-  newReview = Review(staff=staff,
-                     student=student,
-                     isPositive=isPositive,
-                     points=points,
-                     details=details,
-                     studentSeen=False)
-  db.session.add(newReview)
-  try:
-    db.session.commit()
-    return True
-  except Exception as e:
-    print("[review.create_review] Error occurred while creating new review: ",
-          str(e))
-    db.session.rollback()
-    return False
-
-
-def delete_review(reviewID):
-  review = Review.query.filter_by(ID=reviewID).first()
-  if review:
-    db.session.delete(review)
+def create_review(taggedStudentID, createdByStaffID, details, isPositive=False):
+    """
+    Create a new review entry.
+    """
+    new_review = Review(
+        taggedStudentID=taggedStudentID,
+        createdByStaffID=createdByStaffID,
+        details=details,
+        isPositive=isPositive
+    )
+    db.session.add(new_review)
     try:
-      db.session.commit()
-      return True
+        db.session.commit()
+        return new_review
     except Exception as e:
-      print("[review.delete_review] Error occurred while deleting review: ",
-            str(e))
-      db.session.rollback()
-      return False
-  else:
+        print("[ReviewController.create_review] Error:", str(e))
+        db.session.rollback()
+        return None
+
+
+def delete_review(ID):
+    """
+    Delete a review by its ID.
+    """
+    review = Review.query.filter_by(ID=ID).first()
+    if review:
+        db.session.delete(review)
+        try:
+            db.session.commit()
+            return True
+        except Exception as e:
+            print("[ReviewController.delete_review] Error:", str(e))
+            db.session.rollback()
+            return False
     return False
 
 
-def calculate_points_upvote(review):
-  review.points *= 1.1  # multiplier can be changed accordingly
-
-  try:
-    db.session.commit()
-    return True
-  except Exception as e:
-    print(
-        "[review.calculate_points_upvote] Error occurred while updating review points:",
-        str(e))
-    db.session.rollback()
-    return False
-
-
-def calculate_points_downvote(review):
-  review.points *= 0.9
-
-  try:
-    db.session.commit()
-    return True
-  except Exception as e:
-    print(
-        "[review.calculate_points_downvote] Error occurred while updating review points:",
-        str(e))
-    db.session.rollback()
-    return False
-
-
-# def get_total_review_points(studentID):
-#   reviews = Review.query.filter_by(studentID=studentID).all()
-#   if reviews:
-#     sum = 0
-#     for review in reviews:
-#       sum += review.points
-#     return sum
-#   return 0
-def get_total_review_points(studentID):
-  reviews = Review.query.filter_by(studentID=studentID).all()
-  if reviews:
-      total_points = 0
-      review_count = 0
-      for review in reviews:
-          
-          capped_points = max(min(review.points, 30), -30)
-          total_points += capped_points / 30
-          if capped_points <= 30 or capped_points >= -30:  # Only count reviews after applying the threshold
-              #print(" review.points:", review.points)
-              review_count += 1
-      if review_count == 0:  # Avoid division by zero
-          return 0
-      #print("Total Points:", total_points)
-      #print("Review Count:", review_count)
-
-      return round(100 * total_points / review_count, 2) # multiplying by 100 to normalize to 100 points
-  return 0
-
-def get_review(id):
-  review = Review.query.filter_by(ID=id).first()
-  if review:
-    return review
-  else:
+def update_review_sentiment(ID, isPositive):
+    """
+    Update the sentiment of a review.
+    """
+    review = Review.query.filter_by(ID=ID).first()
+    if review:
+        review.apply_sentiment(isPositive)
+        try:
+            db.session.commit()
+            return review
+        except Exception as e:
+            print("[ReviewController.update_review_sentiment] Error:", str(e))
+            db.session.rollback()
+            return None
     return None
+
+
+def get_review(ID):
+    """
+    Retrieve a review by its ID.
+    """
+    return Review.query.filter_by(ID=ID).first()
+
+
+def get_reviews_by_student(taggedStudentID):
+    """
+    Retrieve all reviews for a specific student.
+    """
+    return Review.query.filter_by(taggedStudentID=taggedStudentID).all()
+
+
+def get_reviews_by_staff(createdByStaffID):
+    """
+    Retrieve all reviews created by a specific staff member.
+    """
+    return Review.query.filter_by(createdByStaffID=createdByStaffID).all()
+
+
+def calculate_average_sentiment(taggedStudentID):
+    """
+    Calculate the average sentiment for all reviews tagged to a specific student.
+    """
+    reviews = Review.query.filter_by(taggedStudentID=taggedStudentID).all()
+    if not reviews:
+        return 0  # No reviews, neutral sentiment
+    total_sentiment = sum(1 if review.isPositive else -1 for review in reviews)
+    return total_sentiment / len(reviews)
+
+
+def get_review_statistics(taggedStudentID):
+    """
+    Get review statistics for a specific student.
+    Returns the count of positive and negative reviews.
+    """
+    reviews = Review.query.filter_by(taggedStudentID=taggedStudentID).all()
+    positive_count = sum(1 for review in reviews if review.isPositive)
+    negative_count = len(reviews) - positive_count
+    return {
+        "total_reviews": len(reviews),
+        "positive_reviews": positive_count,
+        "negative_reviews": negative_count,
+    }
+
