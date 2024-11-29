@@ -27,13 +27,6 @@ def get_user(id):
     else:
         return None
 
-def get_user_student(student):
-  user = User.query.get(student.ID)
-  if user:
-      return user
-  else:
-      return None
-
 def get_all_users():
     users = User.query.all()
     if users:
@@ -138,3 +131,10 @@ def update_faculty(userID, newFaculty):
     else:
         print("[user.update_faculty] Error occurred while updating student faculty: User "+userID+" not found")
         return False
+
+def delete_user(userID):
+    user = get_user(userID)
+    if user:
+        db.session.delete(user)
+        return db.session.commit()
+    return None
