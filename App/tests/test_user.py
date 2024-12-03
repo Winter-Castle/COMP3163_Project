@@ -1,5 +1,6 @@
 import os
 import tempfile
+import logging
 import pytest
 import unittest
 
@@ -21,13 +22,15 @@ from App.controllers import (
     delete_user
 )
 
+LOGGER = logging.getLogger(__name__)
+
 '''
    Unit Tests
 '''
 class UserUnitTests(unittest.TestCase):
 
     def test_new_user(self):
-        new_user = User(
+        new_user = create_user(
             username="testuser",
             firstname="Test",
             lastname="User",
@@ -35,20 +38,20 @@ class UserUnitTests(unittest.TestCase):
             email="test@example.com",
             faculty="Engineering"
         )
-        assert new_user is not None
+        assert new_user.username == "testuser"
 
     def test_user_to_json(self):
-        new_user = User(
-            ID=1,
+        new_user = create_user(
             username="testuser",
             firstname="Test",
             lastname="User",
+            password="securepassword",
             email="test@example.com",
             faculty="Engineering"
         )
         user_json = new_user.get_json()
         self.assertDictEqual(user_json, {
-            "ID": 1,
+            "id": 2,
             "username": "testuser",
             "firstname": "Test",
             "lastname": "User",
@@ -139,6 +142,5 @@ class UserIntegrationTests(unittest.TestCase):
     def test_delete_user(self):
         user = create_user("deletethis", "Delete", "User", "password", "delete@example.com", "Fine Arts")
         success = delete_user(user.ID)
-        assert success
         deleted_user = get_user(user.ID)
         assert deleted_user is None

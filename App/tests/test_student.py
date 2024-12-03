@@ -19,6 +19,7 @@ from App.controllers import (
 '''
    Unit Tests
 '''
+
 class StudentUnitTests(unittest.TestCase):
 
     def test_new_student(self):
