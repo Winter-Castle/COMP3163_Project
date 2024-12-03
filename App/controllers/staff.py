@@ -1,5 +1,6 @@
-from App.models import Staff, Student, UpvoteCommand, DownvoteCommand
+from App.models import Staff, Student
 from App.database import db
+from App.controllers.SentimentCommand import set_and_execute_sentiment_command
 
 # Create a new staff member
 def create_staff(username, firstname, lastname, email, password, faculty):
@@ -74,39 +75,29 @@ def staff_upvote(staff_id, student_id):
     """
     Allows a staff member to upvote a student.
     """
-    staff_member = get_staff_by_id(staff_id)
-    student = Student.query.filter_by(ID=student_id).first()
-
-    if staff_member and student:
-        upvote = UpvoteCommand(staff_member, student)
-        try:
-            upvote.execute()  # Execute the upvote command
-            return True
-        except Exception as e:
-            print(f"[staff.staff_upvote] Error while upvoting: {str(e)}")
-            return False
-    print("[staff.staff_upvote] Staff or Student not found.")
-    return False
+    response, status_code = set_and_execute_sentiment_command(
+        tagged_student_id=student_id,
+        created_by_staff_id=staff_id,
+        sentiment_type='upvote'
+    )
+    if status_code == 200:
+        return response["message"]
+    else:
+        print(f"[staff.staff_upvote] Error: {response['error']}")
+        return False
 
 # Staff downvote
 def staff_downvote(staff_id, student_id):
     """
     Allows a staff member to downvote a student.
     """
-    staff_member = get_staff_by_id(staff_id)
-    student = Student.query.filter_by(ID=student_id).first()
-
-    if staff_member and student:
-        downvote = DownvoteCommand(staff_member, student)
-        try:
-            downvote.execute()  # Execute the downvote command
-            return True
-        except Exception as e:
-            print(f"[staff.staff_downvote] Error while downvoting: {str(e)}")
-            return False
-    print("[staff.staff_downvote] Staff or Student not found.")
-    return False
-
-
-
-
+    response, status_code = set_and_execute_sentiment_command(
+        tagged_student_id=student_id,
+        created_by_staff_id=staff_id,
+        sentiment_type='downvote'
+    )
+    if status_code == 200:
+        return response["message"]
+    else:
+        print(f"[staff.staff_downvote] Error: {response['error']}")
+        return False
