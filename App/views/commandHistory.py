@@ -25,12 +25,12 @@ def get_history_by_id(id):
 def get_all_histories():
     return get_all_command_history()
 
-# Route to update a command's history
+# Route to update a command history
 @command_history_views.route('/command-history/<int:id>', methods=['PUT'])
 def update_history(id):
     return update_command_history(id)
 
-# Route to delete a command's history
+# Route to delete a command history
 @command_history_views.route('/command-history/<int:id>', methods=['DELETE'])
 def delete_history(id):
     return delete_command_history(id)
