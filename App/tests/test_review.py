@@ -7,15 +7,12 @@ from App.models import Review
 from App.controllers import (
     create_student,
     create_staff,
-    get_staff_by_username,
     get_staff_by_id,
     get_student_by_id,
-    get_student_by_username,
+
     create_review,
     delete_review,
-    calculate_points_upvote,
-    calculate_points_downvote,
-    get_total_review_points,
+
     get_review
 )
 '''

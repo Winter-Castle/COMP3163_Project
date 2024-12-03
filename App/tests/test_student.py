@@ -6,7 +6,7 @@ from App.database import db, create_db
 from App.models import Student
 from App.controllers import (
     create_student,
-    get_student_by_id,
+    get_student,
     get_student_by_full_name,
     get_all_students,
     update_student,
