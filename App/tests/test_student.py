@@ -6,16 +6,7 @@ from App.database import db, create_db
 from App.models import Student
 from App.controllers import (
     create_student,
-    get_karma,
     get_student_by_id,
-    get_student_by_UniId,
-    get_student_by_username,
-    get_students_by_degree,
-    get_students_by_faculty,
-    get_all_students_json,
-    update_admittedTerm,
-    update_yearofStudy,
-    update_degree
 )
 
 '''

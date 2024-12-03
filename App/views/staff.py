@@ -5,10 +5,10 @@ from flask_login import login_required, current_user
 from sqlalchemy import or_
 from datetime import datetime
 
-from App.models import Student, Staff, User, IncidentReport
+from App.models import Student, Staff, User
 from App.controllers import (
-    jwt_authenticate, get_student_by_UniId,get_student_by_id, 
-    get_staff_by_id, get_students_by_faculty,create_review, get_reviews_by_staff,
+    jwt_authenticate, get_student_by_id, 
+    get_staff_by_id, create_review, get_reviews_by_staff,
     get_reviews_by_student, set_and_execute_sentiment_command
     )
 
