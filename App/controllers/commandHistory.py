@@ -6,13 +6,9 @@ from App.database import db
 command_history_views = Blueprint('command_history_views', __name__)
 
 
-def create_command_history():
-    data = request.json
-    if not data or 'review_id' not in data:
-        return jsonify({'error': 'Invalid data'}), 400
-
+def create_command_history(reviewID):
     try:
-        command_history = commandHistory(review_id=data['review_id'])
+        command_history = commandHistory(reviewID)
         db.session.add(command_history)
         db.session.commit()
         return jsonify({'message': 'Command history created', 'data': command_history.get_json()}), 201
