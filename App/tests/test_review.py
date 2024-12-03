@@ -9,10 +9,8 @@ from App.controllers import (
     create_staff,
     get_staff_by_id,
     get_student_by_id,
-
     create_review,
     delete_review,
-
     get_review
 )
 '''

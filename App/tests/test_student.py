@@ -1,12 +1,15 @@
-import os, tempfile, pytest, logging, unittest
-from werkzeug.security import check_password_hash, generate_password_hash
+import os
+import tempfile
+import pytest
+import logging
+import unittest
 
 from App.main import create_app
 from App.database import db, create_db
 from App.models import Student
 from App.controllers import (
     create_student,
-    get_student,
+    get_student_by_id,
     get_student_by_full_name,
     get_all_students,
     update_student,
@@ -24,14 +27,16 @@ class StudentUnitTests(unittest.TestCase):
         assert new_student is not None
 
     def test_student_to_json(self):
-        new_student = Student(ID=1, fullName="John Doe", degree="Computer Science")
+        new_student = Student(fullName="John Doe", degree="Computer Science")
+        # Simulate saving to the database and ID generation
+        new_student.ID = 1
         student_json = new_student.to_json()
         self.assertDictEqual(student_json, {
-            "ID": 1,
+            "studentID": 1,
             "fullName": "John Doe",
-            "degree": "Computer Science"
+            "degree": "Computer Science",
+            "reviews": []
         })
-
 
 '''
     Integration Tests
@@ -45,6 +50,17 @@ def empty_db():
     db.drop_all()
 
 class StudentIntegrationTests(unittest.TestCase):
+
+    def setUp(self):
+        self.app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        create_db()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
 
     def test_create_student(self):
         student = create_student("John Doe", "Computer Science")

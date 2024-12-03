@@ -114,3 +114,4 @@
 #         update_faculty(1, "New Faculty")
 #         user = get_user(1)
 #         assert user.faculty == "New Faculty"
+
