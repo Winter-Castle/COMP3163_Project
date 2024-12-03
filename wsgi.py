@@ -166,7 +166,7 @@ def final_tests_command(type):
   if type == "all":
     sys.exit(pytest.main(["App/tests"]))
 
-@test.command("user", help="Run User tests")
+@test.command("user", help="Run User tests!!")
 @click.argument("type", default="all")
 def user_tests_command(type):
   if type == "unit":
