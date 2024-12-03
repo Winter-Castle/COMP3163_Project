@@ -9,7 +9,6 @@ from App.controllers import (
     get_all_users_json,
     login,
     get_user,
-    get_user_by_username,
     update_username,
     update_email,
     update_faculty,

@@ -1,5 +1,8 @@
-import os, tempfile, pytest, logging, unittest
-from werkzeug.security import check_password_hash, generate_password_hash
+import os
+import tempfile
+import pytest
+import logging
+import unittest
 
 from App.main import create_app
 from App.database import db, create_db
@@ -7,6 +10,10 @@ from App.models import Student
 from App.controllers import (
     create_student,
     get_student_by_id,
+    get_student_by_full_name,
+    get_all_students,
+    update_student,
+    delete_student
 )
 
 '''
@@ -15,39 +22,25 @@ from App.controllers import (
 class StudentUnitTests(unittest.TestCase):
 
     def test_new_student(self):
-        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5")
-        assert student.username == "billy"
+        new_student = Student(fullName="John Doe", degree="Computer Science")
+        assert new_student is not None
 
-    def test_get_json(self):
-        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5")
-        karma = get_karma(student.karmaID)
-        student_json = student.to_json(karma)
-        print(student_json)
-        self.assertDictEqual(student_json, {"studentID": None,
-                                            "username": "billy",
-                                            "firstname": "Billy",
-                                            "lastname": "John",
-                                            "gpa": "3.5",
-                                            "email": "billy@example.com",
-                                            "faculty": "FST",
-                                            "degree": "BSc Computer Science",
-                                            "admittedTerm": "2022/2023",
-                                            "UniId": "816000000",
-                                            # "reviews": [],
-                                            "accomplishments": [],
-                                            "incidents": [],
-                                            "grades": [],
-                                            "transcripts": [],
-                                            "karmaScore": None,
-                                            "karmaRank": None})
-
+    def test_student_to_json(self):
+        new_student = Student(fullName="John Doe", degree="Computer Science")
+        # Simulate saving to the database and ID generation
+        new_student.ID = 1
+        student_json = new_student.to_json()
+        self.assertDictEqual(student_json, {
+            "studentID": 1,
+            "fullName": "John Doe",
+            "degree": "Computer Science",
+            "reviews": []
+        })
 
 '''
     Integration Tests
 '''
 
-# This fixture creates an empty database for the test and deletes it after the test
-# scope="class" would execute the fixture once and resued for all methods in the class
 @pytest.fixture(autouse=True, scope="module")
 def empty_db():
     app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
@@ -57,38 +50,53 @@ def empty_db():
 
 class StudentIntegrationTests(unittest.TestCase):
 
+    def setUp(self):
+        self.app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        create_db()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
     def test_create_student(self):
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5") == True
-        
+        student = create_student("John Doe", "Computer Science")
+        assert student is not None
+        assert student.fullName == "John Doe"
+        assert student.degree == "Computer Science"
+
     def test_get_student_by_id(self):
-        student = get_student_by_id(1)
-        assert student is not None
-    
-    def test_get_student_by_username(self):
-        student = get_student_by_username("billy")
-        assert student is not None
+        student = create_student("Jane Smith", "Mathematics")
+        fetched_student = get_student_by_id(student.ID)
+        assert fetched_student is not None
+        assert fetched_student.fullName == "Jane Smith"
+        assert fetched_student.degree == "Mathematics"
 
-    def test_get_studens_by_degree(self):
-        students = get_students_by_degree("BSc Computer Science")
-        assert students != []
+    def test_get_student_by_full_name(self):
+        create_student("Alice Johnson", "Physics")
+        fetched_student = get_student_by_full_name("Alice Johnson")
+        assert fetched_student is not None
+        assert fetched_student.degree == "Physics"
 
-    def test_get_students_by_faulty(self):
-        students = get_students_by_faculty("FST")
-        assert students != []
-    
-    def test_get_students_json(self):
-        students = get_all_students_json()
-        assert students != []
+    def test_get_all_students(self):
+        create_student("Student One", "Engineering")
+        create_student("Student Two", "Biology")
+        students = get_all_students()
+        assert len(students) >= 2
 
-    def test_update_admittedTerm(self):
-        assert update_admittedTerm(1, "2023/2024") == True
-    
-    # def test_update_yearOfStudy(self):
-    #     assert update_yearofStudy(1, 1) == True
-    
-    def test_get_student_by_UniId(self):
-      student = get_student_by_UniId("816000000")
-      assert student is not None
-    
-    def test_update_degree(self):
-        assert update_degree(1, "BSc Computer Science Special") == True
+    def test_update_student(self):
+        student = create_student("Temp Name", "Temp Degree")
+        success = update_student(student.ID, full_name="Updated Name", degree="Updated Degree")
+        assert success
+        updated_student = get_student_by_id(student.ID)
+        assert updated_student.fullName == "Updated Name"
+        assert updated_student.degree == "Updated Degree"
+
+    def test_delete_student(self):
+        student = create_student("To Delete", "To Delete Degree")
+        success = delete_student(student.ID)
+        assert success
+        deleted_student = get_student_by_id(student.ID)
+        assert deleted_student is None

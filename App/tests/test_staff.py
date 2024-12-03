@@ -7,11 +7,7 @@ from App.models import Staff
 from App.controllers import (
     create_staff,
     get_staff_by_id,
-    get_staff_by_username,
-    staff_create_review,
-    staff_edit_review,
     create_student,
-    get_student_by_username,
     get_review
 )
 '''
