@@ -11,8 +11,8 @@ from App.controllers.command_history_controller import (
 command_history_views = Blueprint('command_history_views', __name__)
 
 # Route to create a command history
-@command_history_views.route('/command-history', methods=['POST'])
-def create_history():
+@command_history_views.route('/command-history/<int:id>', methods=['POST'])
+def create_history(reviewID):
     return create_command_history()
 
 # Route to get a command history by ID
