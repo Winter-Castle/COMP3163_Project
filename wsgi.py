@@ -22,105 +22,71 @@ def initialize():
   db.drop_all()
   db.create_all()
 
-  create_student(username="billy",
-                 firstname="Billy",
-                 lastname="John",
-                 email="billy@example.com",
-                 password="billypass",
-                 faculty="FST",
-                 admittedTerm="",
-                 UniId='816031160',
-                 degree="",
-                 gpa="")
+#  create_student(username="billy",
+#                 firstname="Billy",
+#                 lastname="John",
+#                 email="billy@example.com",
+#                 password="billypass",
+#                 faculty="FST",
+#                 admittedTerm="",
+#                 UniId='816031160',
+#                 degree="",
+#                 gpa="")
 
-  create_student(username="shivum",
-                 firstname="Shivum",
-                 lastname="Praboocharan",
-                 email="shivum.praboocharan@my.uwi.edu",
-                 password="shivumpass",
-                 faculty="FST",
-                 admittedTerm="2019/2021",
-                 UniId='816016480',
-                 degree="Bachelor of Computer Science with Management",
-                 gpa='')
+#  create_student(username="shivum",
+ #                firstname="Shivum",
+ #                lastname="Praboocharan",
+ #                email="shivum.praboocharan@my.uwi.edu",
+ #                password="shivumpass",
+ #                faculty="FST",
+ #                admittedTerm="2019/2021",
+ #                UniId='816016480',
+ #                degree="Bachelor of Computer Science with Management",
+ #                gpa='')
 
-  create_student(username="jovani",
-                 firstname="Jovani",
-                 lastname="Highley",
-                 email="jovani.highley@my.uwi.edu",
-                 password="jovanipass",
-                 faculty="FST",
-                 admittedTerm="2021/2022",
-                 UniId='816026834',
-                 degree="Bachelor of Computer Science with Management",
-                 gpa='')
+ # create_student(username="jovani",
+ #                firstname="Jovani",
+ #                lastname="Highley",
+ #                email="jovani.highley@my.uwi.edu",
+ #                password="jovanipass",
+ #                faculty="FST",
+ #                admittedTerm="2021/2022",
+ #                UniId='816026834',
+ #                degree="Bachelor of Computer Science with Management",
+ #                gpa='')
 
-  create_student(username="kasim",
-                 firstname="Kasim",
-                 lastname="Taylor",
-                 email="kasim.taylor@my.uwi.edu",
-                 password="kasimpass",
-                 faculty="FST",
-                 admittedTerm="2019/2021",
-                 UniId='816030847',
-                 degree="Bachelor of Computer Science (General",
-                 gpa='')
-
-  create_student(username="brian",
-                 firstname="Brian",
-                 lastname="Cheruiyot",
-                 email="brian.cheruiyot@my.uwi.edu",
-                 password="brianpass",
-                 faculty="FST",
-                 admittedTerm="2021/2022",
-                 UniId='816031609',
-                 degree="Bachelor of Computer Science (General)",
-                 gpa="")
 
   #Creating staff
-  create_staff(username="tim",
-               firstname="Tim",
-               lastname="Long",
-               email="",
-               password="timpass",
-               faculty="")
-
-  create_staff(username="vijay",
-               firstname="Vijayanandh",
-               lastname="Rajamanickam",
-               email="Vijayanandh.Rajamanickam@sta.uwi.edu",
-               password="vijaypass",
-               faculty="FST")
-
-  create_staff(username="permanand",
-               firstname="Permanand",
-               lastname="Mohan",
-               email="Permanand.Mohan@sta.uwi.edu",
-               password="password",
-               faculty="FST")
+#  create_staff(username="tim",
+ #              firstname="Tim",
+ #              lastname="Long",
+ #              email="",
+ #              password="timpass",
+ #              faculty="")
 
 
-  staff = get_staff_by_id(7)
-  student1 = get_student_by_UniId(816031609)
-  create_review(staff, student1, True, 5, "Behaves very well in class!")
 
-  student2 = get_student_by_UniId(816016480)
-  create_review(staff, student2, True, 5, "Behaves very well in class!")
-  student3 = get_student_by_UniId(816026834)
-  create_review(staff, student3, True, 5, "Behaves very well in class!")
-  student4 = get_student_by_UniId(816030847)
-  create_review(staff, student4, True, 5, "Behaves very well in class!")
+  #staff = get_staff_by_id(7)
+ # student1 = get_student_by_UniId(816031609)
+ # create_review(staff, student1, True, 5, "Behaves very well in class!")
 
-  students = Student.query.all()
+ # student2 = get_student_by_UniId(816016480)
+  #create_review(staff, student2, True, 5, "Behaves very well in class!")
+  #student3 = get_student_by_UniId(816026834)
+  #create_review(staff, student3, True, 5, "Behaves very well in class!")
+  #student4 = get_student_by_UniId(816030847)
+  #create_review(staff, student4, True, 5, "Behaves very well in class!")
 
-  for student in students:
+ # students = Student.query.all()
+
+#  for student in students:
     
-    if student:
-      print(student.ID)
-      create_karma(student.ID)
-      student.karmaID = get_karma(student.ID).karmaID
-      print(get_karma(student.ID).karmaID)
-      db.session.commit()
+ #   if student:
+  #    print(student.ID)
+   #   create_karma(student.ID)
+    #  student.karmaID = get_karma(student.ID).karmaID
+     # print(get_karma(student.ID).karmaID)
+     # db.session.commit()
 
 
 # '''
@@ -151,7 +117,7 @@ def initialize():
 #     else:
 #         print(get_all_users_json())
 
-# app.cli.add_command(user_cli) # add the group to the cli
+#app.cli.add_command(user_cli) # add the group to the cli
 '''
 Test Commands
 '''
