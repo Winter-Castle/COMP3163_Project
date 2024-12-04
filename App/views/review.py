@@ -1,10 +1,10 @@
+from flask import Blueprint, request, jsonify, render_template
+from flask_login import login_required, current_user
 from App.controllers import (
     create_review, get_review, update_review, delete_review, 
     get_reviews_by_student, get_reviews_by_staff, get_review_statistics, 
-    update_review_sentiment
+    update_review_sentiment, get_all_reviews
 )
-from flask import Blueprint, request, jsonify
-from flask_login import login_required, current_user
 
 review_views = Blueprint('review_views', __name__)
 
@@ -13,14 +13,14 @@ Page/Action Routes
 '''
 
 @review_views.route('/reviews', methods=['GET'])
-@login_required
+# @login_required
 def reviews_page():
     """
     Return all reviews for the current staff member.
     """
     staff_id = current_user.get_id()
-    reviews = [review.to_json() for review in get_reviews_by_staff(staff_id)]
-    return jsonify(reviews=reviews)
+    reviews = get_all_reviews()
+    return render_template('AllStudentReviews.html', reviews=reviews)
 
 @review_views.route('/createReview', methods=['POST'])
 @login_required

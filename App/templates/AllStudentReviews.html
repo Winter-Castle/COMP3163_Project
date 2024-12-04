@@ -164,7 +164,7 @@
             <h1>UWI</h1>
         </div>
         <div class="logo2"><h2>Student Conduct Tracker</h2></div>
-        {% if user.user_type == "student" %}
+        {% if 1 == 1 %}
         <ul class="nav-bar">
             <li><a href="/Student-Home">Home</a></li>
             <li><a href="/student-page">Profile</a></li>
@@ -173,20 +173,16 @@
               {% else %}
               <ul class="nav-bar">
                 <li><a href="/staffhome">Home</a></li>
-                <li><a href="/getStudentProfile/{{student.UniId}}">Student Profile</a></li>
+                <!-- <li><a href="/getStudentProfile/{{student.UniId}}">Student Profile</a></li> -->
                 <li><a href="/logout">Logout</a></li>
                 </ul>
               {% endif %}
     </header>
 
-    <div class="recommendation-section">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/fixes/All%20Reviews.png?raw=true" alt="Recommendation Icon" class="recommendation-image">
-        <div class="recommendation-text">All Reviews for Student {{ student.firstname}} {{ student.lastname}}</div>
-       <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/fixes/All%20Reviews.png?raw=true" alt="Recommendation Icon" class="recommendation-image">
-    </div>
+    
 
   <!-- New student card -->
-  {% for review  in student.reviews %} 
+  {% for review in reviews %} 
   <div class="student-card">
     
       <div class="student-info">
@@ -197,7 +193,7 @@
         {% endif %}
 
 
-        <p>Points: {{ review.points }}</p>
+        <p>Points: 12</p>
           <div class="description-box">
               <h3>Details:  {{ review.details}}</h3>
 

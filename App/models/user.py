@@ -6,7 +6,7 @@ from abc import ABC
 
 class User(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(120), nullable=False)
+    username = db.Column(db.String(120), nullable=False, unique=True)
     firstname = db.Column(db.String(120), nullable=False)
     lastname = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)

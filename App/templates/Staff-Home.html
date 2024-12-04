@@ -290,6 +290,7 @@
 </head>
 <body>
 
+{% block content %}
 <header>
   <div class="logo">
     <h1>UWI</h1> <!-- Updated to have text inside -->
@@ -302,7 +303,7 @@
   </ul>
   <div class="user-avatar"></div> <!-- Changed to a div with background for better control -->
 </header>
-
+{% endblock content %}
 <main class="main-content">
 <span class="text">Student </span>
 <span class="text2">Tracker</span>
@@ -313,7 +314,7 @@
 
 </main>
 
-<div class="gradient-box">
+<div class="gradient-box" style="flex-direction: column;">
   <a href="/mainReviewPage" class="image-link">
     <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Create Review">
     <span class="text4"> Create Review </span>
@@ -326,24 +327,7 @@
     <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Leaderboard">
     <span class="text4"> Review Search </span>
   </a> -->
-  <a href="/incidentReport" class="image-link">
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/IR.png?raw=true" alt="Incident Report">
-    <span class="text4"> Incident Report</span>
-    <a href="/allAchievementApproval" class="image-link">
-      <div class="icon-container">
-        <span class="icon-number">{{ numAccProp }}</span>
-      </div>
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/fixes/staff%20proposed%20achivements.png?raw=true" alt="Proposed Achievements">
-    <span class="text4"> Proposed Achievements</span>
-  </a>
-  <a href="/allRecommendationRequests" class="image-link">
-    <div class="icon-container">
-      <span class="icon-number">{{ numRRs  }}</span>
-    </div>
-    <img src="https://raw.githubusercontent.com/RichardR963/Info3604_Project/main/images/fixes/staff%20recommendation%20requests.webp" alt="Recommendation Requests">
-    <span class="text4"> Recommendation Requests</span>
-  </a>
- 
+
 </div>
 
 

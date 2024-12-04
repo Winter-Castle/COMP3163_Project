@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
-from flask_login import login_required, login_user, current_user, logout_user
-
-from .index import index_views
-from App.models import Staff, Student, User
-from App.controllers import (create_user, jwt_authenticate, login)
+from flask_jwt_extended import unset_access_cookies, create_access_token, set_access_cookies
+from flask_login import current_user
+from App.models import User
+from App.controllers import (create_user, jwt_authenticate, login, 
+  get_all_users, get_all_users_json, create_staff, login_user)
 
 auth_views = Blueprint('auth_views', __name__, template_folder='../templates')
 '''
@@ -19,39 +19,64 @@ def get_user_page():
 
 
 @auth_views.route('/identify', methods=['GET'])
-@login_required
+@jwt_required()
 def identify_page():
   return jsonify({
       'message':
       f"username: {current_user.username}, id : {current_user.ID}"
   })
 
+@auth_views.route('/signup-page', methods=['GET'])
+def signup_page():
+  return render_template('signup.html')
+
+@auth_views.route('/signup', methods=['POST'])
+def signup_action():
+  data = request.form
+  staff = create_staff(data['username'], data['firstname'], data['lastname'], data['email'], data['password'], data['faculty'])
+  if not staff:
+    flash("Error creating user!")
+    return render_template('signup.html')
+  flash("User created!")
+  return render_template('login.html')
+
+# @auth_views.route('/login', methods=['POST'])
+# def login_action():
+#   data = request.form
+#   message="Bad username or password"
+#   user = login(data['username'], data['password'])
+#   if user:
+
+#     user_type = type(user)
+#     print("User type:", user_type)
+#     response = login_user(user)
+#     if (user.user_type == "staff"):
+#       return redirect(url_for("staff_views.get_StaffHome_page"))  # Redirect to student dashboard
+#   return render_template('login.html', message=message)
 
 @auth_views.route('/login', methods=['POST'])
-def login_action():
+def login_page():
   data = request.form
   message="Bad username or password"
   user = login(data['username'], data['password'])
   if user:
-    user_type = type(user)
-    print("User type:", user_type)
-    login_user(user)
-    if (user.user_type == "staff"):
-      return redirect("/StaffHome")  # Redirect to student dashboard
-    elif (user.user_type == "student"):
-      return redirect("/StudentHome")  # Redirect to staff dashboard
-    elif (user.user_type == "admin"):
-      return redirect("/admin")
-  return render_template('login.html', message=message)
-
+    access_token = create_access_token(identity=user.ID)
+    response = redirect(url_for('staff_views.get_StaffHome_page'))
+    set_access_cookies(response, access_token)
+  else:
+    response = render_template('login.html', message=message)
+  return response
 
 @auth_views.route('/logout', methods=['GET'])
-def logout_action():
-  logout_user()
-  # data = request.form
-  # user = login(data['username'], data['password'])
-  #return 'logged out!'
-  return redirect("/")
+def logout():
+  response = jsonify(message='Logged out')
+  unset_access_cookies(response)
+  return response
+
+# @auth_views.route('/logout', methods=['GET'])
+# def logout_action():
+#   logout_user()
+#   return redirect("/")
 
 
 '''
@@ -88,3 +113,12 @@ def identify_user_action():
       'message':
       f"username: {jwt_current_user.username}, id : {jwt_current_user.ID}"
   })
+
+@auth_views.route('/api/signup', methods=['POST'])
+def signup_api_action():
+  data = request.json
+  staff = create_staff(data['username'], data['firstname'], data['lastname'], data['email'], data['password'], data['faculty'])
+  if not staff:
+    return jsonify({"message": "Error creating user!"}), 400
+  flash("User created!")
+  return jsonify({"message": f"User {data['username']} created!"}), 200

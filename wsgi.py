@@ -6,7 +6,7 @@ from App.main import create_app
 from App.models import Student
 from App.controllers import (
     create_student, create_staff,
-    create_review, 
+    create_review, get_student_by_id,
      get_staff_by_id,set_and_execute_sentiment_command
   )
 
@@ -22,60 +22,15 @@ def initialize():
   db.drop_all()
   db.create_all()
 
-  create_student(username="billy",
-                 firstname="Billy",
-                 lastname="John",
-                 email="billy@example.com",
-                 password="billypass",
-                 faculty="FST",
-                 admittedTerm="",
-                 UniId='816031160',
-                 degree="",
-                 gpa="")
-
-  create_student(username="shivum",
-                 firstname="Shivum",
-                 lastname="Praboocharan",
-                 email="shivum.praboocharan@my.uwi.edu",
-                 password="shivumpass",
-                 faculty="FST",
-                 admittedTerm="2019/2021",
-                 UniId='816016480',
-                 degree="Bachelor of Computer Science with Management",
-                 gpa='')
-
-  create_student(username="jovani",
-                 firstname="Jovani",
-                 lastname="Highley",
-                 email="jovani.highley@my.uwi.edu",
-                 password="jovanipass",
-                 faculty="FST",
-                 admittedTerm="2021/2022",
-                 UniId='816026834',
-                 degree="Bachelor of Computer Science with Management",
-                 gpa='')
-
-  create_student(username="kasim",
-                 firstname="Kasim",
-                 lastname="Taylor",
-                 email="kasim.taylor@my.uwi.edu",
-                 password="kasimpass",
-                 faculty="FST",
-                 admittedTerm="2019/2021",
-                 UniId='816030847',
-                 degree="Bachelor of Computer Science (General",
-                 gpa='')
-
-  create_student(username="brian",
-                 firstname="Brian",
-                 lastname="Cheruiyot",
-                 email="brian.cheruiyot@my.uwi.edu",
-                 password="brianpass",
-                 faculty="FST",
-                 admittedTerm="2021/2022",
-                 UniId='816031609',
-                 degree="Bachelor of Computer Science (General)",
-                 gpa="")
+  #Creating students
+  create_student(
+                 full_name="Billy John",
+                 degree="Comp Sci"
+                 )
+  create_student(
+                 full_name="Jane Doe",
+                 degree="Comp Sci"
+                 )
 
   #Creating staff
   create_staff(username="tim",
@@ -98,60 +53,17 @@ def initialize():
                email="Permanand.Mohan@sta.uwi.edu",
                password="password",
                faculty="FST")
+  
+  staff = 1
+  student1 = 1
+  create_review(staff, student1, "Behaves very well in class!",True )
+  student2 = 2
+  create_review(staff, student2, "Behaves very well in class!",True )
+  student3 = 3
+  create_review(staff, student3, "Behaves very well in class!",True )
+  print("Database initialized")
 
 
-  staff = get_staff_by_id(7)
-  student1 = get_student_by_UniId(816031609)
-  create_review(staff, student1, True, 5, "Behaves very well in class!")
-
-  student2 = get_student_by_UniId(816016480)
-  create_review(staff, student2, True, 5, "Behaves very well in class!")
-  student3 = get_student_by_UniId(816026834)
-  create_review(staff, student3, True, 5, "Behaves very well in class!")
-  student4 = get_student_by_UniId(816030847)
-  create_review(staff, student4, True, 5, "Behaves very well in class!")
-
-  students = Student.query.all()
-
-  for student in students:
-    
-    if student:
-      print(student.ID)
-      create_karma(student.ID)
-      student.karmaID = get_karma(student.ID).karmaID
-      print(get_karma(student.ID).karmaID)
-      db.session.commit()
-
-
-# '''
-# User Commands
-# '''
-
-# # Commands can be organized using groups
-
-# # create a group, it would be the first argument of the comand
-# # eg : flask user <command>
-# # user_cli = AppGroup('user', help='User object commands')
-
-# # # Then define the command and any parameters and annotate it with the group (@)
-# @user_cli.command("create", help="Creates a user")
-# @click.argument("username", default="rob")
-# @click.argument("password", default="robpass")
-# def create_user_command(id, username, firstname,lastname , password, email, faculty):
-#     create_user(id, username, firstname,lastname , password, email, faculty)
-#     print(f'{username} created!')
-
-# # this command will be : flask user create bob bobpass
-
-# @user_cli.command("list", help="Lists users in the database")
-# @click.argument("format", default="string")
-# def list_user_command(format):
-#     if format == 'string':
-#         print(get_all_users())
-#     else:
-#         print(get_all_users_json())
-
-# app.cli.add_command(user_cli) # add the group to the cli
 '''
 Test Commands
 '''

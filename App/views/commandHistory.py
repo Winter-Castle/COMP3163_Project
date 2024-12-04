@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request
-from App.controllers.command_history_controller import (
+from App.controllers.commandHistory import (
     create_command_history,
     get_command_history_byID,
     get_all_command_history,
-    update_command_history,
-    delete_command_history
+    # update_command_history,
+    # delete_command_history
 )
 
 # Define the Blueprint for command history
@@ -25,12 +25,12 @@ def get_history_by_id(id):
 def get_all_histories():
     return get_all_command_history()
 
-# Route to update a command history
-@command_history_views.route('/command-history/<int:id>', methods=['PUT'])
-def update_history(id):
-    return update_command_history(id)
+# # Route to update a command history
+# @command_history_views.route('/command-history/<int:id>', methods=['PUT'])
+# def update_history(id):
+#     return update_command_history(id)
 
-# Route to delete a command history
-@command_history_views.route('/command-history/<int:id>', methods=['DELETE'])
-def delete_history(id):
-    return delete_command_history(id)
+# # Route to delete a command history
+# @command_history_views.route('/command-history/<int:id>', methods=['DELETE'])
+# def delete_history(id):
+#     return delete_command_history(id)

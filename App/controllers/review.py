@@ -92,6 +92,13 @@ def get_review(ID):
     """
     return Review.query.filter_by(ID=ID).first()
 
+# Retrieve all reviews    
+def get_all_reviews():
+    """
+    Retrieve all reviews.
+    """
+    return Review.query.all()
+
 # Retrieve all reviews for a specific student
 def get_reviews_by_student(taggedStudentID):
     """

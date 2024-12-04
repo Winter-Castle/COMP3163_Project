@@ -2,9 +2,6 @@ from flask import Blueprint, jsonify
 from App.models import CommandHistory
 from App.database import db
 
-command_history_views = Blueprint('command_history_views', __name__)
-
-
 def create_command_history(review_id):
     """
     Create a new CommandHistory entry in the database.
