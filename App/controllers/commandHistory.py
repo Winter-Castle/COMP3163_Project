@@ -35,7 +35,7 @@ def get_all_command_history():
 
 
 
-# Commented out as requested
+# Commented out as requested before
 # def update_command_history(id):
 #     if not request.is_json:
 #         return jsonify({'error': 'Request must be JSON'}), 400
