@@ -1,30 +1,29 @@
 import pytest
 import unittest
+from datetime import datetime
 from App.main import create_app  # Import create_app correctly
-from App.models.commandHistory import CommandHistory  # Fix class import (uppercase C and correct model path)
+from App.models.commandHistory import CommandHistory  # Correctly import CommandHistory
 from App.database import db, create_db
 from App.controllers import (
     create_command_history,
     get_command_history_byID,
     get_all_command_history,
 )
-from datetime import datetime
 
 
 # Unit Tests for CommandHistory Model
 class CommandHistoryUnitTests(unittest.TestCase):
-
     def test_create_command_history(self):
         # Create a CommandHistory instance
         review_id = 1
         new_command_history = CommandHistory(review_id=review_id)
         
-        # Manually set the time since it's not automatically set before saving
+        # Manually set the time to simulate database behavior
         new_command_history.time = datetime.utcnow()
 
         # Assert that the object is not None
         assert new_command_history is not None
-        
+
         # Assert the review_id is correctly assigned
         assert new_command_history.review_id == review_id
 
@@ -41,10 +40,10 @@ class CommandHistoryUnitTests(unittest.TestCase):
 
         # Simulate saving to the database and ID generation
         new_command_history.id = 1
-        
+
         # Get the JSON representation of the command history
         command_history_json = new_command_history.get_json()
-        
+
         # Assert the JSON format
         self.assertDictEqual(command_history_json, {
             'id': 1,
@@ -63,7 +62,6 @@ def empty_db():
 
 
 class CommandHistoryIntegrationTests(unittest.TestCase):
-
     def setUp(self):
         self.app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
         self.app_context = self.app.app_context()
@@ -79,7 +77,7 @@ class CommandHistoryIntegrationTests(unittest.TestCase):
         # Create a command history entry
         review_id = 1
         command_history = create_command_history(review_id)
-        
+
         # Assert that the command history was created
         assert command_history is not None
         assert command_history.review_id == review_id
@@ -89,10 +87,10 @@ class CommandHistoryIntegrationTests(unittest.TestCase):
         # Create a command history entry
         review_id = 2
         command_history = create_command_history(review_id)
-        
+
         # Retrieve the command history by its ID
         fetched_command_history = get_command_history_byID(command_history.id)
-        
+
         # Assert the fetched command history matches the created one
         assert fetched_command_history is not None
         assert fetched_command_history.id == command_history.id
@@ -102,9 +100,11 @@ class CommandHistoryIntegrationTests(unittest.TestCase):
         # Create multiple command history entries
         create_command_history(1)
         create_command_history(2)
-        
+
         # Retrieve all command histories
         command_histories = get_all_command_history()
-        
+
         # Assert that at least 2 command history records exist
         assert len(command_histories) >= 2
+        assert all(isinstance(ch, CommandHistory) for ch in command_histories)
+
