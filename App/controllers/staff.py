@@ -7,6 +7,7 @@ def create_staff(username, firstname, lastname, email, password, faculty):
     new_staff = Staff(username=username, firstname=firstname, lastname=lastname,
                       email=email, password=password, faculty=faculty)
     db.session.add(new_staff)
+ 
     
     try:
         db.session.commit()

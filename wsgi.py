@@ -1,15 +1,13 @@
 import click, pytest, sys
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
-
 from App.database import db, get_migrate
 from App.main import create_app
 from App.models import Student
 from App.controllers import (
-    create_student, create_staff,  get_all_users_json,
-    get_all_users,
+    create_student, create_staff,
     create_review, 
-     get_staff_by_id, get_student_by_id,
+     get_staff_by_id,set_and_execute_sentiment_command
   )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -209,4 +207,46 @@ def review_tests_command(type):
   # else:
   #   sys.exit(pytest.main(["-k", "App"]))
 
+@app.cli.command("apply_sentiment", help="Apply a sentiment (upvote/downvote) to a student review")
+@click.argument("tagged_student_id", type=int)
+@click.argument("created_by_staff_id", type=int)
+@click.argument("sentiment_type", type=str)
+def apply_sentiment(tagged_student_id, created_by_staff_id, sentiment_type):
+    """
+    CLI command to apply sentiment using the set_and_execute_sentiment_command function.
+
+    Args:
+        tagged_student_id (int): ID of the tagged student.
+        created_by_staff_id (int): ID of the staff creating the review.
+        sentiment_type (str): Sentiment type ('upvote' or 'downvote').
+    """
+    response, status = set_and_execute_sentiment_command(tagged_student_id, created_by_staff_id, sentiment_type)
+    if status == 200:
+        print(f"Success: {response['message']}")
+        print(f"Review Details: {response['review']}")
+    elif status == 400:
+        print(f"Error: {response['error']}")
+    elif status == 500:
+        print(f"Error: {response['error']}")
+
+
+@test.command("sentiment", help="Run sentiment tests")
+@click.argument("type", default="all")
+def sentiment_tests_command(type):
+    """
+    CLI command to run sentiment-related tests.
+    
+    Args:
+        type (str): Test type ('unit', 'int', or 'all').
+    """
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "SentimentCommandUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "SentimentCommandIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "SentimentCommand"]))
+
+
 app.cli.add_command(test)
+
+
