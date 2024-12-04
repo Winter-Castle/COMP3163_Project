@@ -210,3 +210,14 @@ def review_tests_command(type):
   #   sys.exit(pytest.main(["-k", "App"]))
 
 app.cli.add_command(test)
+
+
+@test.command("commandHistory", help="Run Command History tests")
+@click.argument("type", default="all")
+def history_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "CommandHistoryUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "CommandHistoryIntegrationTests"]))
+  # else:
+  #   sys.exit(pytest.main(["-k", "App"]))
