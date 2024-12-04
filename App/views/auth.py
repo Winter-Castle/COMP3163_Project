@@ -54,6 +54,19 @@ def signup_action():
 #       return redirect(url_for("staff_views.get_StaffHome_page"))  # Redirect to student dashboard
 #   return render_template('login.html', message=message)
 
+# @auth_views.route('/login', methods=['POST'])
+# def login_page():
+#   data = request.form
+#   message="Bad username or password"
+#   user = login(data['username'], data['password'])
+#   if user:
+#     access_token = create_access_token(identity=user.ID)
+#     response = redirect(url_for('staff_views.get_StaffHome_page'))
+#     set_access_cookies(response, access_token)
+#   else:
+#     response = render_template('login.html', message=message)
+#   return response
+
 @auth_views.route('/login', methods=['POST'])
 def login_page():
   data = request.form
@@ -97,18 +110,30 @@ def create_user_endpoint():
   return jsonify({'message': f"user {data['username']} created"})
 
 
+# @auth_views.route('/api/login', methods=['POST'])
+# def user_login_api():
+#   data = request.json
+#   token = jwt_authenticate(data['username'], data['password'])
+#   if not token:
+#     return jsonify(message='bad username or password given'), 401
+#   return jsonify(access_token=token)
 @auth_views.route('/api/login', methods=['POST'])
-def user_login_api():
+def login_api_page():
   data = request.json
-  token = jwt_authenticate(data['username'], data['password'])
-  if not token:
-    return jsonify(message='bad username or password given'), 401
-  return jsonify(access_token=token)
-
+  message="Bad username or password"
+  user = login(data['username'], data['password'])
+  if user:
+    token = create_access_token(identity=user.ID)
+    response = jsonify(access_token=token)
+    set_access_cookies(response, token)
+  else:
+    response = render_template('login.html', message=message)
+  return response
 
 @auth_views.route('/api/identify', methods=['GET'])
 @jwt_required()
 def identify_user_action():
+  user = jwt_current_user
   return jsonify({
       'message':
       f"username: {jwt_current_user.username}, id : {jwt_current_user.ID}"
