@@ -3,7 +3,6 @@ import unittest
 from App.main import create_app
 from App.database import db, create_db
 from App.models import Staff
-
 from App.controllers.staff import (
     create_staff, get_staff_by_id, get_staff_by_email, get_all_staff,
     update_staff_info, delete_staff, staff_upvote, staff_downvote
