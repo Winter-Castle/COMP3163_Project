@@ -12,7 +12,7 @@ from unittest.mock import patch
 '''
    Unit Tests
 '''
-class StaffControllerUnitTests(unittest.TestCase):
+class StaffUnitTests(unittest.TestCase):
 
     def test_new_staff(self):
         new_staff = Staff(username="jdoe", firstname="John", lastname="Doe", 
@@ -24,7 +24,7 @@ class StaffControllerUnitTests(unittest.TestCase):
                           email="jdoe@example.com", password="secure123", faculty="Science")
         new_staff_json = new_staff.to_json()
         self.assertDictEqual(new_staff_json, {
-            "ID": None,
+            "staffID": None,
             "username": "jdoe",
             "firstname": "John",
             "lastname": "Doe",
@@ -32,13 +32,13 @@ class StaffControllerUnitTests(unittest.TestCase):
             "faculty": "Science"
         })
 
-    @patch('App.controllers.staff_controller.set_and_execute_sentiment_command')
+    @patch('App.controllers.staff.set_and_execute_sentiment_command')
     def test_staff_upvote(self, mock_set_and_execute):
         mock_set_and_execute.return_value = ({"message": "Review upvoted successfully"}, 200)
         response = staff_upvote(1, 1)
         assert response == "Review upvoted successfully"
 
-    @patch('App.controllers.staff_controller.set_and_execute_sentiment_command')
+    @patch('App.controllers.staff.set_and_execute_sentiment_command')
     def test_staff_downvote(self, mock_set_and_execute):
         mock_set_and_execute.return_value = ({"message": "Review downvoted successfully"}, 200)
         response = staff_downvote(1, 1)
@@ -58,7 +58,7 @@ def empty_db():
     yield app.test_client()
     db.drop_all()
 
-class StaffControllerIntegrationTests(unittest.TestCase):
+class StaffIntegrationTests(unittest.TestCase):
 
     def test_create_staff(self):
         staff = create_staff("jdoe", "John", "Doe", "jdoe@example.com", "secure123", "Science")
