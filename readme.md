@@ -6,7 +6,7 @@
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
 
 # Flask MVC Template
-A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/). [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
+# [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
 
 
 # Dependencies
@@ -67,6 +67,12 @@ You just need create a manager command function, for example:
 ```python
 # inside wsgi.py
 
+@test.command("final", help="Runs ALL tests")
+@click.argument("type", default="all")
+def final_tests_command(type):
+  if type == "all":
+    sys.exit(pytest.main(["App/tests"]))
+
 user_cli = AppGroup('user', help='User object commands')
 
 @user_cli.cli.command("create-user")
@@ -77,6 +83,14 @@ def create_user_command(username, password):
     print(f'{username} created!')
 
 app.cli.add_command(user_cli) # add the group to the cli
+
+```
+
+Then execute the command invoking with flask cli with command name and the relevant parameters to test all commands 
+
+```bash
+$ flask  test final
+```
 
 ```
 
@@ -135,12 +149,98 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "User"]))
+
+
+@test.command("student", help="Run Student tests")
+@click.argument("type", default="all")
+def student_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "StudentUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "StudentIntegrationTests"]))
+  # else:
+  #   sys.exit(pytest.main(["-k", "App"]))
+
+ @test.command("staff", help="Run Staff tests")
+@click.argument("type", default="all")
+def staff_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "StaffUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "StaffIntegrationTests"]))
+  else:
+    sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("review", help="Run Review tests")
+@click.argument("type", default="all")
+def review_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "ReviewUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "ReviewIntegrationTests"]))
+  else:
+    sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("sentiment", help="Run sentiment tests")
+@click.argument("type", default="all")
+def sentiment_tests_command(type):
+    """
+    CLI command to run sentiment-related tests.
+    
+    Args:
+        type (str): Test type ('unit', 'int', or 'all').
+    """
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "SentimentCommandUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "SentimentCommandIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "SentimentCommand"]))
+
+
+@test.command("commandHistory", help="Run Command History tests")
+@click.argument("type", default="all")
+def history_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "CommandHistoryUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "CommandHistoryIntegrationTests"]))
+  else:
+    sys.exit(pytest.main(["-k", "CommandHistory"]))
+
+
+
 ```
 
-You can then execute all user tests as follows
+You can then execute all user tests as follows 
 
 ```bash
-$ flask test user
+$ flask test user 
+```
+You can then execute all student tests as follows 
+
+```bash
+$ flask test student
+```
+You can then execute all staff tests as follows 
+
+```bash
+$ flask test staff 
+```
+You can then execute all review tests as follows 
+
+```bash
+$ flask test review 
+```
+You can then execute all sentiment tests as follows 
+
+```bash
+$ flask test sentiment
+```
+You can then execute all commandHistory tests as follows 
+
+```bash
+$ flask test commandHistory
 ```
 
 You can also supply "unit" or "int" at the end of the comand to execute only unit or integration tests.
