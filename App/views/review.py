@@ -1,10 +1,10 @@
+from flask import Blueprint, request, jsonify, render_template
+from flask_login import login_required, current_user
 from App.controllers import (
     create_review, get_review, update_review, delete_review, 
     get_reviews_by_student, get_reviews_by_staff, get_review_statistics, 
-    update_review_sentiment
+    update_review_sentiment, get_all_reviews
 )
-from flask import Blueprint, request, jsonify
-from flask_login import login_required, current_user
 
 review_views = Blueprint('review_views', __name__)
 
@@ -19,8 +19,8 @@ def reviews_page():
     Return all reviews for the current staff member.
     """
     staff_id = current_user.get_id()
-    reviews = [review.to_json() for review in get_reviews_by_staff(staff_id)]
-    return jsonify(reviews=reviews)
+    reviews = get_all_reviews()
+    return render_template('AllStudentReviews.html', reviews=reviews)
 
 @review_views.route('/createReview', methods=['POST'])
 @login_required
@@ -46,7 +46,7 @@ def create_review_action():
     else:
         return jsonify({"error": f"Failed to create review for Student ID {student_id}."}), 400
 
-@review_views.route('/editReview/<int:review_id>', methods=['GET'])
+@review_views.route('/editReview/<int:review_id>', methods=['PUT'])
 @login_required
 def edit_review_page(review_id):
     """
@@ -58,9 +58,9 @@ def edit_review_page(review_id):
     else:
         return jsonify({"error": f"Review with ID {review_id} not found."}), 404
 
-@review_views.route('/editReview', methods=['POST'])
+@review_views.route('/editReview/<int:review_id>', methods=['PUT'])
 @login_required
-def edit_review_action():
+def edit_review_action(review_id):
     """
     Handle the editing of an existing review.
     """
@@ -83,19 +83,8 @@ def edit_review_action():
         return jsonify({"message": f"Review ID {review_id} updated successfully.", "review": updated_review.to_json()}), 200
     else:
         return jsonify({"error": f"Failed to update Review ID {review_id}."}), 400
-
-@review_views.route('/deleteReview/<int:review_id>', methods=['POST'])
-@login_required
-def delete_review_action(review_id):
-    """
-    Handle the deletion of a review.
-    """
-    success = delete_review(review_id)
-    if success:
-        return jsonify({"message": f"Review ID {review_id} deleted successfully."}), 200
-    else:
-        return jsonify({"error": f"Failed to delete Review ID {review_id}."}), 400
-
+    
+    
 @review_views.route('/studentReviews/<int:student_id>', methods=['GET'])
 @login_required
 def student_reviews_page(student_id):
@@ -149,3 +138,17 @@ def downvote_review_action(review_id):
         return jsonify({"message": f"Review ID {review_id} downvoted successfully.", "review": updated_review.to_json()}), 200
     else:
         return jsonify({"error": f"Failed to downvote Review ID {review_id}."}), 400
+    
+@review_views.route('/deleteReview/<int:review_id>', methods=['DELETE'])
+@login_required
+def delete_review_action(review_id):
+    """
+    Handle the deletion of a review.
+    """
+    success = delete_review(review_id)
+    if success:
+        return jsonify({"message": f"Review ID {review_id} deleted successfully."}), 200
+    else:
+
+        return jsonify({"error": f"Failed to delete Review ID {review_id}."}), 400
+

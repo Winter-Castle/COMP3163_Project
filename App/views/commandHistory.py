@@ -3,6 +3,9 @@ from App.controllers.commandHistory import (
     create_command_history,
     get_command_history_byID,
     get_all_command_history,
+    # update_command_history,
+    # delete_command_history
+
 )
 
 # Define the Blueprint for command history
@@ -40,12 +43,12 @@ def get_all_histories():
     return jsonify([history.to_dict() for history in histories])  # Convert each history to dict
 
 
-# Route to update a command history
-@command_history_views.route('/command-history/<int:id>', methods=['PUT'])
-def update_history(id):
-    return update_command_history(id)
+# # Route to update a command history
+# @command_history_views.route('/command-history/<int:id>', methods=['PUT'])
+# def update_history(id):
+#     return update_command_history(id)
 
-# Route to delete a command history
-@command_history_views.route('/command-history/<int:id>', methods=['DELETE'])
-def delete_history(id):
-    return delete_command_history(id)
+# # Route to delete a command history
+# @command_history_views.route('/command-history/<int:id>', methods=['DELETE'])
+# def delete_history(id):
+#     return delete_command_history(id)

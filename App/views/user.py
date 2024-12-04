@@ -7,7 +7,6 @@ from.index import index_views
 
 from App.controllers import (
     create_user,
-    jwt_authenticate, 
     get_all_users,
     get_all_users_json,
     jwt_required
@@ -15,10 +14,10 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
-@user_views.route('/users', methods=['GET'])
-def get_user_page():
-    users = get_all_users()
-    return render_template('users.html', users=users)
+# @user_views.route('/users', methods=['GET'])
+# def get_user_page():
+#     users = get_all_users()
+#     return render_template('users.html', users=users)
 
 @user_views.route('/api/users', methods=['GET'])
 def get_users_action():
@@ -28,17 +27,17 @@ def get_users_action():
 @user_views.route('/api/users', methods=['POST'])
 def create_user_endpoint():
     data = request.json
-    create_user(data['username'], data['firstname'], data['lastname'], data['password'], data['email'], data['faculty'])
-    return jsonify({'message': f"user {data['username']} created"}), 201  # Return 201 status code
+    create_user(data['username'],  data['firstname'], data['lastname'],  data['password'], data['email'],data['faculty'])
+    return jsonify({'message': f"user {data['username']} created"})
+
+# @user_views.route('/users', methods=['POST'])
+# def create_user_action():
+#     data = request.form
+#     flash(f"User {data['username']} created!")
+#     create_user(data['username'], data['password'])
+#     return redirect(url_for('user_views.get_user_page'))
 
 
-@user_views.route('/users', methods=['POST'])
-def create_user_action():
-    data = request.form
-    flash(f"User {data['username']} created!")
-    create_user(data['username'], data['firstname'], data['lastname'], data['password'], data['email'], data['faculty'])
-    return redirect(url_for('user_views.get_user_page'))
-
-@user_views.route('/static/users', methods=['GET'])
-def static_user_page():
-  return send_from_directory('static', 'static-user.html')
+# @user_views.route('/static/users', methods=['GET'])
+# def static_user_page():
+#   return send_from_directory('static', 'static-user.html')

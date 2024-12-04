@@ -18,7 +18,9 @@ class Staff(User):
                      email=email,
                      password=password,
                      faculty=faculty)
-
+  @property
+  def is_active(self):
+    return True
 #return staff details on json format
 
   def to_json(self):
