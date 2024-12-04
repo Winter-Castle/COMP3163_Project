@@ -76,15 +76,18 @@ def staff_upvote(staff_id, student_id):
     """
     Allows a staff member to upvote a student.
     """
-    response, status_code = set_and_execute_sentiment_command(
+    response, _ = set_and_execute_sentiment_command(
         tagged_student_id=student_id,
         created_by_staff_id=staff_id,
         sentiment_type='upvote'
     )
-    if status_code == 200:
-        return response["message"]
+
+    # Check if response contains a success message
+    if response.get("message"):
+        return response.get("message")  # Return the success message
     else:
-        print(f"[staff.staff_upvote] Error: {response['error']}")
+        # Log error and return False if there is an error
+        print(f"[staff.staff_upvote] Error: {response.get('error', 'Unknown error occurred.')}")
         return False
 
 # Staff downvote
@@ -92,13 +95,16 @@ def staff_downvote(staff_id, student_id):
     """
     Allows a staff member to downvote a student.
     """
-    response, status_code = set_and_execute_sentiment_command(
+    response, _ = set_and_execute_sentiment_command(
         tagged_student_id=student_id,
         created_by_staff_id=staff_id,
         sentiment_type='downvote'
     )
-    if status_code == 200:
-        return response["message"]
+
+    # Check if response contains a success message
+    if response.get("message"):
+        return response.get("message")  # Return the success message
     else:
-        print(f"[staff.staff_downvote] Error: {response['error']}")
+        # Log error and return False if there is an error
+        print(f"[staff.staff_downvote] Error: {response.get('error', 'Unknown error occurred.')}")
         return False
