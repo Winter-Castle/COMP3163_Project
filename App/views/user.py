@@ -28,15 +28,8 @@ def get_users_action():
 @user_views.route('/api/users', methods=['POST'])
 def create_user_endpoint():
     data = request.json
-    
-    # Check if required fields are in the request
-    if not data or 'username' not in data or 'firstname' not in data or 'lastname' not in data or 'password' not in data or 'email' not in data or 'faculty' not in data:
-        return jsonify({'message': 'Missing required fields: username, firstname, lastname, password, email, or faculty'}), 400
-    
-    # Call the function to create the user if data is valid
     create_user(data['username'], data['firstname'], data['lastname'], data['password'], data['email'], data['faculty'])
-    
-    return jsonify({'message': f"user {data['username']} created"}), 201
+    return jsonify({'message': f"user {data['username']} created"}), 201  # Return 201 status code
 
 
 @user_views.route('/users', methods=['POST'])
