@@ -37,6 +37,7 @@ def create_user_endpoint():
 #     create_user(data['username'], data['password'])
 #     return redirect(url_for('user_views.get_user_page'))
 
+
 # @user_views.route('/static/users', methods=['GET'])
 # def static_user_page():
 #   return send_from_directory('static', 'static-user.html')

@@ -22,6 +22,7 @@ def initialize():
   db.drop_all()
   db.create_all()
 
+
   #Creating students
   create_student(
                  full_name="Billy John",
@@ -64,6 +65,7 @@ def initialize():
   print("Database initialized")
 
 
+
 '''
 Test Commands
 '''
@@ -83,8 +85,8 @@ def user_tests_command(type):
     sys.exit(pytest.main(["-k", "UserUnitTests"]))
   elif type == "int":
     sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
-  # else:
-  #   sys.exit(pytest.main(["-k", "App"]))
+  else:
+    sys.exit(pytest.main(["-k", "User"]))
 
 
 @test.command("student", help="Run Student tests")
@@ -94,8 +96,8 @@ def student_tests_command(type):
     sys.exit(pytest.main(["-k", "StudentUnitTests"]))
   elif type == "int":
     sys.exit(pytest.main(["-k", "StudentIntegrationTests"]))
-  # else:
-  #   sys.exit(pytest.main(["-k", "App"]))
+  else:
+    sys.exit(pytest.main(["-k", "Student"]))
 
 
 @test.command("staff", help="Run Staff tests")
@@ -105,8 +107,8 @@ def staff_tests_command(type):
     sys.exit(pytest.main(["-k", "StaffUnitTests"]))
   elif type == "int":
     sys.exit(pytest.main(["-k", "StaffIntegrationTests"]))
-  # else:
-  #   sys.exit(pytest.main(["-k", "App"]))
+  else:
+    sys.exit(pytest.main(["-k", "Staff"]))
 
 
 @test.command("review", help="Run Review tests")
@@ -116,8 +118,8 @@ def review_tests_command(type):
     sys.exit(pytest.main(["-k", "ReviewUnitTests"]))
   elif type == "int":
     sys.exit(pytest.main(["-k", "ReviewIntegrationTests"]))
-  # else:
-  #   sys.exit(pytest.main(["-k", "App"]))
+  else:
+    sys.exit(pytest.main(["-k", "Review"]))
 
 @app.cli.command("apply_sentiment", help="Apply a sentiment (upvote/downvote) to a student review")
 @click.argument("tagged_student_id", type=int)
@@ -170,6 +172,6 @@ def history_tests_command(type):
     sys.exit(pytest.main(["-k", "CommandHistoryUnitTests"]))
   elif type == "int":
     sys.exit(pytest.main(["-k", "CommandHistoryIntegrationTests"]))
-  # else:
-  #   sys.exit(pytest.main(["-k", "App"]))
+  else:
+    sys.exit(pytest.main(["-k", "CommandHistory"]))
 
