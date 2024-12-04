@@ -10,7 +10,7 @@ class CommandHistory(db.Model):
     def __init__(self, review_id):
         self.review_id = review_id
 
-    def get_json(self):
+    def to_dict(self):
         return {
             'id': self.id,
             'review_id': self.review_id,

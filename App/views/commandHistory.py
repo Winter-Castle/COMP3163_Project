@@ -1,29 +1,44 @@
 from flask import Blueprint, jsonify, request
-from App.controllers.command_history_controller import (
+from App.controllers.commandHistory import (
     create_command_history,
     get_command_history_byID,
     get_all_command_history,
-    update_command_history,
-    delete_command_history
 )
 
 # Define the Blueprint for command history
 command_history_views = Blueprint('command_history_views', __name__)
 
-# Route to create a command history
-@command_history_views.route('/command-history/<int:id>', methods=['POST'])
-def create_history(reviewID):
-    return create_command_history(reviewID)
 
-# Route to get a command history by ID
-@command_history_views.route('/command-history/<int:id>', methods=['GET'])
+# Route to create a command history with reviewID through URL
+@command_history_views.route('/command-history/<int:reviewID>', methods=['POST'])
+def create_command_history_endpoint(reviewID):
+    """
+    Endpoint to create a new command history record using reviewID from URL.
+    """
+    # Call the function to create a new command history, passing the reviewID from the URL
+    result = create_command_history(reviewID)
+    
+    if result:
+        return jsonify({'message': f"Command history for review ID {reviewID} created successfully."}), 201
+    else:
+        return jsonify({'message': 'Failed to create command history'}), 400
+
+
+@command_history_views.route('/api/command-history/<int:id>', methods=['GET'])
 def get_history_by_id(id):
-    return get_command_history_byID(id)
+    history = get_command_history_byID(id)
+    if history is None:
+        return jsonify({'message': 'Command history not found'}), 404
+    return jsonify(history.to_dict())  # Use .to_dict() here to return a dictionary
 
-# Route to get all command histories
-@command_history_views.route('/command-history', methods=['GET'])
+
+
+@command_history_views.route('/api/command-history/all', methods=['GET'])
 def get_all_histories():
-    return get_all_command_history()
+    histories = get_all_command_history()
+    # If no histories are found, return an empty list
+    return jsonify([history.to_dict() for history in histories])  # Convert each history to dict
+
 
 # Route to update a command history
 @command_history_views.route('/command-history/<int:id>', methods=['PUT'])
