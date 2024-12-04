@@ -1,10 +1,10 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
 from abc import ABC
-
+from flask_login import UserMixin
 # needs login and logout function 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     ID = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), nullable=False, unique=True)
     firstname = db.Column(db.String(120), nullable=False)

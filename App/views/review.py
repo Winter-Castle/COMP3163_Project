@@ -13,7 +13,7 @@ Page/Action Routes
 '''
 
 @review_views.route('/reviews', methods=['GET'])
-# @login_required
+@login_required
 def reviews_page():
     """
     Return all reviews for the current staff member.
@@ -46,7 +46,7 @@ def create_review_action():
     else:
         return jsonify({"error": f"Failed to create review for Student ID {student_id}."}), 400
 
-@review_views.route('/editReview/<int:review_id>', methods=['GET'])
+@review_views.route('/editReview/<int:review_id>', methods=['PUT'])
 @login_required
 def edit_review_page(review_id):
     """
@@ -58,9 +58,9 @@ def edit_review_page(review_id):
     else:
         return jsonify({"error": f"Review with ID {review_id} not found."}), 404
 
-@review_views.route('/editReview', methods=['POST'])
+@review_views.route('/editReview/<int:review_id>', methods=['PUT'])
 @login_required
-def edit_review_action():
+def edit_review_action(review_id):
     """
     Handle the editing of an existing review.
     """
@@ -83,19 +83,8 @@ def edit_review_action():
         return jsonify({"message": f"Review ID {review_id} updated successfully.", "review": updated_review.to_json()}), 200
     else:
         return jsonify({"error": f"Failed to update Review ID {review_id}."}), 400
-
-@review_views.route('/deleteReview/<int:review_id>', methods=['POST'])
-@login_required
-def delete_review_action(review_id):
-    """
-    Handle the deletion of a review.
-    """
-    success = delete_review(review_id)
-    if success:
-        return jsonify({"message": f"Review ID {review_id} deleted successfully."}), 200
-    else:
-        return jsonify({"error": f"Failed to delete Review ID {review_id}."}), 400
-
+    
+    
 @review_views.route('/studentReviews/<int:student_id>', methods=['GET'])
 @login_required
 def student_reviews_page(student_id):
@@ -149,3 +138,17 @@ def downvote_review_action(review_id):
         return jsonify({"message": f"Review ID {review_id} downvoted successfully.", "review": updated_review.to_json()}), 200
     else:
         return jsonify({"error": f"Failed to downvote Review ID {review_id}."}), 400
+    
+@review_views.route('/deleteReview/<int:review_id>', methods=['DELETE'])
+@login_required
+def delete_review_action(review_id):
+    """
+    Handle the deletion of a review.
+    """
+    success = delete_review(review_id)
+    if success:
+        return jsonify({"message": f"Review ID {review_id} deleted successfully."}), 200
+    else:
+
+        return jsonify({"error": f"Failed to delete Review ID {review_id}."}), 400
+

@@ -20,7 +20,7 @@ Page/Action Routes
 '''
 
 @staff_views.route('/Profile', methods=['GET']) # This is the staff profile 
-@jwt_required()
+@login_required
 def get_StaffHome_page():
   staff_id = current_user.get_id()
   staff = get_staff_by_id(staff_id)
