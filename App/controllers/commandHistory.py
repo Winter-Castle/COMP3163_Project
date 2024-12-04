@@ -1,13 +1,13 @@
 from flask import Blueprint, jsonify
 from datetime import datetime
-from App.models import commandHistory
+from App.models import CommandHistory
 from App.database import db
 
 command_history_views = Blueprint('command_history_views', __name__)
 
 
 def create_command_history(review_id):
-    command_history = commandHistory(review_id=review_id, time=datetime.utcnow())
+    command_history = CommandHistory(review_id=review_id, time=datetime.utcnow())
     db.session.add(command_history)
     db.session.commit()
     return command_history
@@ -15,13 +15,13 @@ def create_command_history(review_id):
 
 
 def get_command_history_byID(id):
-    command_history = commandHistory.query.get(id)
+    command_history = CommandHistory.query.get(id)
     return command_history  # Returns None if not found
 
 
 def get_all_command_history():
     try:
-        command_histories = commandHistory.query.all()
+        command_histories = CommandHistory.query.all()
         return command_histories  # Returns a list of objects or an empty list
     except Exception:
         return None
