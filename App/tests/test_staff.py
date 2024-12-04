@@ -7,7 +7,7 @@ from App.models import Staff
 from App.controllers.staff import (
     create_staff, get_staff_by_id, get_staff_by_email, get_all_staff,
     update_staff_info, delete_staff, staff_upvote, staff_downvote
-
+)
 from unittest.mock import patch
 
 '''
