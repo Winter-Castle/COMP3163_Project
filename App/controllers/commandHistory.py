@@ -1,19 +1,17 @@
 from flask import Blueprint, jsonify
+from datetime import datetime
 from App.models import commandHistory
 from App.database import db
 
 command_history_views = Blueprint('command_history_views', __name__)
 
 
-def create_command_history(reviewID):
-    try:
-        command_history = commandHistory(reviewID)
-        db.session.add(command_history)
-        db.session.commit()
-        return command_history  # Returning the object directly
-    except Exception as e:
-        db.session.rollback()
-        return None
+def create_command_history(review_id):
+    command_history = commandHistory(review_id=review_id, time=datetime.utcnow())
+    db.session.add(command_history)
+    db.session.commit()
+    return command_history
+
 
 
 def get_command_history_byID(id):
