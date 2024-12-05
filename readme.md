@@ -8,6 +8,10 @@
 # Flask MVC Template
  [Postman Collection](https://winter-castle.postman.co/workspace/Winter-Castle-Workspace~eb31d5c2-a4b3-4d66-9866-83791246b96e/collection/33338944-e7fc1c7c-2878-4939-8696-bb7bb9cf5fb4?action=share&creator=33338944&active-environment=33338944-36ca6507-b58c-486c-b7d1-d24324148834)
 
+Make sure to /init in the URL
+Use login credentials 
+username = tim
+password = timpass
 
 # Dependencies
 * Python3/pip3
