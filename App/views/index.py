@@ -6,6 +6,7 @@ from App.controllers import (
     create_staff,
     get_staff_by_id,
     create_review,
+    create_command_history
 )
 from flask_login import login_required, login_user, current_user, logout_user
 
@@ -33,7 +34,7 @@ def init():
   # Creating students
   create_student(full_name="Billy John", degree="Comp Sci")
   create_student(full_name="Jane Doe", degree="Comp Sci")
-  #create_student(full_name="Alice Smith", degree="Mathematics")
+  create_student(full_name="Alice Smith", degree="Mathematics")
   create_student(full_name="Bob Brown", degree="Physics")
   create_student(full_name="Cathy Green", degree="Chemistry")
   create_student(full_name="David White", degree="Biology")
