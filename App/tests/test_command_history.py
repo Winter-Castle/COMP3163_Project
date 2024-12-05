@@ -30,7 +30,7 @@ class CommandHistoryUnitTests(unittest.TestCase):
         # Assert that the time is correctly set
         assert isinstance(new_command_history.time, datetime)
 
-    def test_command_history_to_json(self):
+    def test_command_history_to_dict(self):
         # Create a CommandHistory instance
         review_id = 1
         new_command_history = CommandHistory(review_id=review_id)
@@ -41,11 +41,11 @@ class CommandHistoryUnitTests(unittest.TestCase):
         # Simulate saving to the database and ID generation
         new_command_history.id = 1
 
-        # Get the JSON representation of the command history
-        command_history_json = new_command_history.get_json()
+        # Get the dictionary representation of the command history
+        command_history_dict = new_command_history.to_dict()
 
-        # Assert the JSON format
-        self.assertDictEqual(command_history_json, {
+        # Assert the dictionary format
+        self.assertDictEqual(command_history_dict, {
             'id': 1,
             'review_id': 1,
             'time': new_command_history.time.isoformat(),
@@ -107,4 +107,3 @@ class CommandHistoryIntegrationTests(unittest.TestCase):
         # Assert that at least 2 command history records exist
         assert len(command_histories) >= 2
         assert all(isinstance(ch, CommandHistory) for ch in command_histories)
-

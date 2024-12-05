@@ -24,22 +24,6 @@ def hello_world():
   return 'Hello, World!'
 
 
-@index_views.route('/admin', methods=['GET'])
-@login_required
-def admin_page():
-  return render_template('Admin-Home.html')
-
-
-@index_views.route('/studentcsv', methods=['GET'])
-def indexs_page():
-  return render_template('StudentCSV.html')
-
-
-@index_views.route('/staffcsv', methods=['GET'])
-def csvStaffPage():
-  return render_template('StaffCSV.html')
-
-
 @index_views.route('/init', methods=['GET'])
 def init():
   db.drop_all()

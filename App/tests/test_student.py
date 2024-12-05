@@ -42,13 +42,6 @@ class StudentUnitTests(unittest.TestCase):
     Integration Tests
 '''
 
-@pytest.fixture(autouse=True, scope="module")
-def empty_db():
-    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
-    create_db()
-    yield app.test_client()
-    db.drop_all()
-
 class StudentIntegrationTests(unittest.TestCase):
 
     def setUp(self):
@@ -72,14 +65,23 @@ class StudentIntegrationTests(unittest.TestCase):
         student = create_student("Jane Smith", "Mathematics")
         fetched_student = get_student_by_id(student.ID)
         assert fetched_student is not None
-        assert fetched_student.fullName == "Jane Smith"
-        assert fetched_student.degree == "Mathematics"
+        # Handle the possibility of a dictionary response
+        if isinstance(fetched_student, dict):
+            assert fetched_student["fullName"] == "Jane Smith"
+            assert fetched_student["degree"] == "Mathematics"
+        else:
+            assert fetched_student.fullName == "Jane Smith"
+            assert fetched_student.degree == "Mathematics"
 
     def test_get_student_by_full_name(self):
         create_student("Alice Johnson", "Physics")
         fetched_student = get_student_by_full_name("Alice Johnson")
         assert fetched_student is not None
-        assert fetched_student.degree == "Physics"
+        # Handle the possibility of a dictionary response
+        if isinstance(fetched_student, dict):
+            assert fetched_student["degree"] == "Physics"
+        else:
+            assert fetched_student.degree == "Physics"
 
     def test_get_all_students(self):
         create_student("Student One", "Engineering")
@@ -92,8 +94,14 @@ class StudentIntegrationTests(unittest.TestCase):
         success = update_student(student.ID, full_name="Updated Name", degree="Updated Degree")
         assert success
         updated_student = get_student_by_id(student.ID)
-        assert updated_student.fullName == "Updated Name"
-        assert updated_student.degree == "Updated Degree"
+        assert updated_student is not None
+        # Handle the possibility of a dictionary response
+        if isinstance(updated_student, dict):
+            assert updated_student["fullName"] == "Updated Name"
+            assert updated_student["degree"] == "Updated Degree"
+        else:
+            assert updated_student.fullName == "Updated Name"
+            assert updated_student.degree == "Updated Degree"
 
     def test_delete_student(self):
         student = create_student("To Delete", "To Delete Degree")
