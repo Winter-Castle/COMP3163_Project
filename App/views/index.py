@@ -26,7 +26,7 @@ def hello_world():
 
 @index_views.route('/init', methods=['GET'])
 def init():
- db.drop_all()
+  db.drop_all()
   db.create_all()
 
 
@@ -96,14 +96,14 @@ def init():
 
 
 
-review_messages = ["Excellent participation!", "Needs improvement in assignments.", "Great teamwork!", "Outstanding performance in projects!", "Regularly submits assignments late.", "Shows leadership in group activities.", "Needs to focus more on lectures.", "Always on time!", "Frequently absent.", "Positive attitude towards learning."]
+  review_messages = ["Excellent participation!", "Needs improvement in assignments.", "Great teamwork!", "Outstanding performance in projects!", "Regularly submits assignments late.", "Shows leadership in group activities.", "Needs to focus more on lectures.", "Always on time!", "Frequently absent.", "Positive attitude towards learning."]
 
-for student_id in range(1, 15):
-    staff_id = random.randint(1, 3)
-    message = random.choice(review_messages)
-    is_positive = random.choice([True, False])
-    review = create_review(staff_id, student_id, message, is_positive)
-    create_command_history(review.ID)
+  for student_id in range(1, 15):
+      staff_id = random.randint(1, 3)
+      message = random.choice(review_messages)
+      is_positive = random.choice([True, False])
+      review = create_review(staff_id, student_id, message, is_positive)
+      create_command_history(review.ID)
 
   return jsonify(message='db initialized!')
 
