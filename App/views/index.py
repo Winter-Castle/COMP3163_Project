@@ -33,7 +33,7 @@ def init():
   # Creating students
   create_student(full_name="Billy John", degree="Comp Sci")
   create_student(full_name="Jane Doe", degree="Comp Sci")
-  create_student(full_name="Alice Smith", degree="Mathematics")
+  #create_student(full_name="Alice Smith", degree="Mathematics")
   create_student(full_name="Bob Brown", degree="Physics")
   create_student(full_name="Cathy Green", degree="Chemistry")
   create_student(full_name="David White", degree="Biology")
