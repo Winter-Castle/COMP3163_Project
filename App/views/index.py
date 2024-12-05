@@ -28,6 +28,46 @@ def hello_world():
 def init():
   db.drop_all()
   db.create_all()
+  create_student(
+                full_name="Billy John",
+                degree="Comp Sci"
+                )
+  create_student(
+                 full_name="Jane Doe",
+                 degree="Comp Sci"
+                 )
+
+  #Creating staff
+  create_staff(username="tim",
+               firstname="Tim",
+               lastname="Long",
+               email="",
+               password="timpass",
+               faculty="")
+
+  create_staff(username="vijay",
+               firstname="Vijayanandh",
+               lastname="Rajamanickam",
+               email="Vijayanandh.Rajamanickam@sta.uwi.edu",
+               password="vijaypass",
+               faculty="FST")
+
+  create_staff(username="permanand",
+               firstname="Permanand",
+               lastname="Mohan",
+               email="Permanand.Mohan@sta.uwi.edu",
+               password="password",
+               faculty="FST")
+  
+  staff = 1
+  student1 = 1
+  create_review(staff, student1, "Behaves very well in class!",True )
+  student2 = 2
+  create_review(staff, student2, "Behaves very well in class!",True )
+  student3 = 3
+  create_review(staff, student3, "Behaves very well in class!",True )
+  print("Database initialized")
+
 
   # create_student(username="billy",
   #                firstname="Billy",
