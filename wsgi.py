@@ -97,7 +97,7 @@ for student_id in range(1, 15):
     message = random.choice(review_messages)
     is_positive = random.choice([True, False])
     review = create_review(staff_id, student_id, message, is_positive)
-    create_command_history(review.ID)
+    #create_command_history(review.ID)
 
 print("Database initialized")
 
