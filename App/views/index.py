@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
 from App.models import db, Student
+import random
 from App.controllers import (
     create_user,
     create_student,
