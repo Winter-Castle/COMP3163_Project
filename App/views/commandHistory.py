@@ -1,8 +1,11 @@
-from flask import Blueprint, jsonify, request
-from App.controllers.commandHistory import (
+from flask import Blueprint, jsonify, request,render_template
+from flask_login import login_required
+from App.controllers import (
     create_command_history,
     get_command_history_byID,
     get_all_command_history,
+    get_all_reviews, get_all_staff,
+    get_staff_by_id, get_user
     # update_command_history,
     # delete_command_history
 
@@ -11,6 +14,21 @@ from App.controllers.commandHistory import (
 # Define the Blueprint for command history
 command_history_views = Blueprint('command_history_views', __name__)
 
+
+# Route to view all command history records
+@command_history_views.route('/viewHistoryPage', methods=['GET'])
+@login_required
+def view_command_history():
+    histories = get_all_command_history()
+    reviews = get_all_reviews()
+    histories_with_reviews = []
+    for history in histories:
+        review = [r for r in reviews if r.ID == history.review_id][0]
+        staff = get_user(review.createdByStaffID)
+        
+        histories_with_reviews.append((history, review, staff))
+    histories_with_reviews.reverse()
+    return render_template('viewHistory.html', histories=histories_with_reviews)
 
 # Route to create a command history with reviewID through URL
 @command_history_views.route('/command-history/<int:reviewID>', methods=['POST'])

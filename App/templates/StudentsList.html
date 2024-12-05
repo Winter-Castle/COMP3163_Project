@@ -182,29 +182,31 @@
     </header>
 
     <section style="text-align: center; margin-top: 150px;">
-        <h1 style="font-size: 36px;">My Reviews</h1>
+        <h1 style="font-size: 36px;">Students</h1>
     </section>
     
     <div class="student-card-container">
-    {% for review in reviews %} 
-    <div class="student-card">
-        <div class="student-info">
-            <h3>{{ review[1].fullName }}</h3>
-            {% if review[0].isPositive %}
-                <h4 style="color: green;">Positive Review</h4>
-                <div class="description-box">
-                    <h4 ">Details:  {{ review[0].details}}</h4>
-                </div>
-            {% else %}
-                <h4 style="color: red;">Negative Review</h4>
-                <div class="description-box">
-                    <h4 style="color: red;">Details:  {{ review[0].details}}</h4>
-                </div>
-            {% endif %}
-            
+        {% for student in students %} 
+        <div class="student-card" style="display: flex; flex-direction: row;">
+            <div class="card-image">
+                <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/user.png?raw=true" width="150" height="150">
+            </div>
+            <div class="card-content">
+                <a href="/studentProfile/{{student.id}}" class="header" style="text-decoration: none; color: #333;" onmouseover="this.style.color='darkblue'" onmouseout="this.style.color='#333'"><h2>{{student[0].fullName}}</h2></a>
+                <p>{{ student[0].degree }}</p>
+                <p>Karma: {{ student[1].positive_reviews - student[1].negative_reviews }}</p>
+            </div>
+            <!-- <div style="margin-left: auto; margin-right: 10px;">
+                <button class="btn" style="background-color: green; color: white; padding: 20px 40px; font-size: 16px;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">Review this Student</button>
+            </div> -->
+            <div style="position: absolute; right: 0; padding-right: 20px;">
+                <a href="/createReview" class="image-link">
+                    <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Create Review" style="width: 100px; height: 100px;" onmouseover="this.style.filter='brightness(0.8)'" onmouseout="this.style.filter='brightness(1)'">
+                    <!-- <span class="text4"> Create Review </span> -->
+                </a>
+            </div>
         </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </body>
 </html>

@@ -150,7 +150,7 @@
         </div>
         <div class="logo2"><h2>Student Conduct Tracker</h2></div>
         <ul class="nav-bar">
-            <li><a href="/staffhome">Home</a></li>
+            <li><a href="/Home">Home</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </header>
@@ -159,8 +159,8 @@
         <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Student Conduct Tracker">
         <h2>Student Search</h2>
         <form class = "sm" action="/searchStudent" method="get">
-          <input type="text" id="studentID" name="studentID" placeholder="Student ID" oninput="fetchStudentName()">
-            <input type="text" id="name" name="name" placeholder="Name">
+          <input type="text" id="studentID" name="studentID" placeholder="Student ID">
+            <input type="text" id="name" name="name" placeholder="Name" oninput="fetchStudentName()>
             <input type="text" id="faculty" name="faculty" placeholder="Faculty" >
             <input type="text" id="degree" name="degree" placeholder="Degree" >
         <button type="submit">Search</button>
