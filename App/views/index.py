@@ -26,16 +26,30 @@ def hello_world():
 
 @index_views.route('/init', methods=['GET'])
 def init():
-  db.drop_all()
+ db.drop_all()
   db.create_all()
-  create_student(
-                full_name="Billy John",
-                degree="Comp Sci"
-                )
-  create_student(
-                 full_name="Jane Doe",
-                 degree="Comp Sci"
-                 )
+
+
+  # Creating students
+  create_student(full_name="Billy John", degree="Comp Sci")
+  create_student(full_name="Jane Doe", degree="Comp Sci")
+  create_student(full_name="Alice Smith", degree="Mathematics")
+  create_student(full_name="Bob Brown", degree="Physics")
+  create_student(full_name="Cathy Green", degree="Chemistry")
+  create_student(full_name="David White", degree="Biology")
+  create_student(full_name="Eva Black", degree="History")
+  create_student(full_name="Frank Yellow", degree="Geography")
+  create_student(full_name="Georgia Red", degree="Philosophy")
+  create_student(full_name="Henry Blue", degree="Economics")
+  create_student(full_name="Ivy Purple", degree="Political Science")
+  create_student(full_name="Jack Orange", degree="Psychology")
+  create_student(full_name="Karen Pink", degree="Sociology")
+  create_student(full_name="Leo Cyan", degree="Engineering")
+  create_student(full_name="Mona Magenta", degree="Business")
+  create_student(full_name="Nina Lime", degree="Finance")
+  create_student(full_name="Oscar Olive", degree="Art")
+  create_student(full_name="Paul Teal", degree="Music")
+  create_student(full_name="Quinn Violet", degree="Theater")
 
   #Creating staff
   create_staff(username="tim",
@@ -58,115 +72,38 @@ def init():
                email="Permanand.Mohan@sta.uwi.edu",
                password="password",
                faculty="FST")
-  
-  staff = 1
-  student1 = 1
-  create_review(staff, student1, "Behaves very well in class!",True )
-  student2 = 2
-  create_review(staff, student2, "Behaves very well in class!",True )
-  student3 = 3
-  create_review(staff, student3, "Behaves very well in class!",True )
-  print("Database initialized")
+
+  create_staff(username="john",
+               firstname="John",
+               lastname="Deo",
+               email="John.Deo@sta.uwi.edu",
+               password="password",
+               faculty="FST")
+
+  create_staff(username="james",
+               firstname="James",
+               lastname="Thomas",
+               email="James.Thomas@sta.uwi.edu",
+               password="password",
+               faculty="FST")
+
+  create_staff(username="richard",
+               firstname="Richard",
+               lastname="Rajkumar",
+               email="Richard.Rajkumar@sta.uwi.edu",
+               password="password",
+               faculty="FST")
 
 
-  # create_student(username="billy",
-  #                firstname="Billy",
-  #                lastname="John",
-  #                email="billy@example.com",
-  #                password="billypass",
-  #                faculty="FST",
-  #                admittedTerm="",
-  #                UniId='816031060',
-  #                degree="",
-  #                gpa="")
 
-  # create_student(username="shivum",
-  #                firstname="Shivum",
-  #                lastname="Praboocharan",
-  #                email="shivum.praboocharan@my.uwi.edu",
-  #                password="shivumpass",
-  #                faculty="FST",
-  #                admittedTerm="2019/2021",
-  #                UniId='816016480',
-  #                degree="Bachelor of Computer Science with Management",
-  #                gpa='')
+review_messages = ["Excellent participation!", "Needs improvement in assignments.", "Great teamwork!", "Outstanding performance in projects!", "Regularly submits assignments late.", "Shows leadership in group activities.", "Needs to focus more on lectures.", "Always on time!", "Frequently absent.", "Positive attitude towards learning."]
 
-  # create_student(username="jovani",
-  #                firstname="Jovani",
-  #                lastname="Highley",
-  #                email="jovani.highley@my.uwi.edu",
-  #                password="jovanipass",
-  #                faculty="FST",
-  #                admittedTerm="2021/2022",
-  #                UniId='816026834',
-  #                degree="Bachelor of Computer Science with Management",
-  #                gpa='')
-
-  # create_student(username="kasim",
-  #                firstname="Kasim",
-  #                lastname="Taylor",
-  #                email="kasim.taylor@my.uwi.edu",
-  #                password="kasimpass",
-  #                faculty="FST",
-  #                admittedTerm="2019/2021",
-  #                UniId='816030847',
-  #                degree="Bachelor of Computer Science (General",
-  #                gpa='')
-
-  # create_student(username="brian",
-  #                firstname="Brian",
-  #                lastname="Cheruiyot",
-  #                email="brian.cheruiyot@my.uwi.edu",
-  #                password="brianpass",
-  #                faculty="FST",
-  #                admittedTerm="2021/2022",
-  #                UniId='816031609',
-  #                degree="Bachelor of Computer Science (General)",
-  #                gpa="")
-
-  # #Creating staff
-  # create_staff(username="tim",
-  #              firstname="Tim",
-  #              lastname="Long",
-  #              email="",
-  #              password="timpass",
-  #              faculty="")
-
-  # create_staff(username="vijay",
-  #              firstname="Vijayanandh",
-  #              lastname="Rajamanickam",
-  #              email="Vijayanandh.Rajamanickam@sta.uwi.edu",
-  #              password="vijaypass",
-  #              faculty="FST")
-
-  # create_staff(username="permanand",
-  #              firstname="Permanand",
-  #              lastname="Mohan",
-  #              email="Permanand.Mohan@sta.uwi.edu",
-  #              password="password",
-  #              faculty="FST")
-
-  # create_job_recommendation(
-  #     2, 7, False, "Job", "1",
-  #     "I am seeking a recommnedation for a position at a company", "WebTech",
-  #     "Web Developer", "webtech@gmail.com")
-  # create_job_recommendation(
-  #     2, 8, False, "Job", "1",
-  #     "I am seeking a recommnedation for a position at a company", "WebTech",
-  #     "Web Developer", "webtech@gmail.com")
-  # create_accomplishment(2, False, "Permanand Mohan", "Runtime",
-  #                       "I placed first at runtime.", 0, "None Yet")
-  # create_accomplishment(2, False, "Vijayanandh Rajamanickam", "Runtime",
-  #                       "I placed first at runtime.", 0, "None Yet")
-
-  # staff = get_staff_by_id(7)
-
-  # students = Student.query.all()
-
-  # for student in students:
-  #   create_karma(student.ID)
-  #   student.karmaID = Karma.query.filter_by(
-  #       studentID=student.ID).first().karmaID
+for student_id in range(1, 15):
+    staff_id = random.randint(1, 3)
+    message = random.choice(review_messages)
+    is_positive = random.choice([True, False])
+    review = create_review(staff_id, student_id, message, is_positive)
+    create_command_history(review.ID)
 
   return jsonify(message='db initialized!')
 
