@@ -76,7 +76,7 @@
           left: 50%; /* Center horizontally */
           transform: translate(-50%, -50%); /* Move the card back up and left by 50% of its own width and height */
           width: 400px; /* Adjust the width of the signup card */
-          height: 450px; /* Adjust the height of the signup card */
+          height: 850px; /* Adjust the height of the signup card */
           background-color: #fff;
           border-radius: 10px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -208,11 +208,19 @@
   <form class="signup-form" action="/signup" href="/signup" method="POST">
       <p>   Username</p>
       <input name="username" id="username" type="text" placeholder="Username">
+      <p>First Name</p>
+      <input name="firstname" id="firstname" type="text" placeholder="first name">
+      <p>Last Name</p>
+      <input name="lastname" id="lastname" type="text" placeholder="last name">
+      <p>Email</p>
+      <input name="email" id="email" type="text" placeholder="email">
       <p> Password</p>
       <input name="password" id="password" type="password" placeholder="Password">
+      <p>Faculty</p>
+      <input name="faculty" id="faculty" type="text" placeholder="faculty">
       <button style="display: block; margin: 0 auto;" type="submit" href="/login">
           Submit
-      </button>
+      </button> 
     {% if message %}
     <div class="message-container">
         <div class="message">

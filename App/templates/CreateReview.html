@@ -190,7 +190,7 @@
         </div>
         <div class="logo2"><h2>Student Conduct Tracker</h2></div>
         <ul class="nav-bar">
-            <li><a href="/staffhome">Home</a></li>
+            <li><a href="/Home">Home</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </header>
@@ -198,131 +198,47 @@
     <div class="recommendation-form">
       <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Create Review">
         <h2>Student Review Survey</h2>
-
         <form id="review-form" action="/createReview" method="post">
-            <input type="text" id="studentID" name="studentID" placeholder="Student ID" required oninput="fetchStudentName()">
-          <input type="text" id="name" name="name" placeholder="Student Name" required>
+            <input type="text" id="name" name="studID" placeholder="Student ID" required>
+            <input type="text" id="name" name="name" placeholder="Student Name" required>
             <div class="reviewStuff">
-            <div class="positive">
-              <h3 class="heads">Positive</h3>
-            <div class="dropdown">
-                <span>Leadership</span>
-                <div class="dropdown-content">
-                    <a href="#" data-value="4">Demonstrating leadership skills </a>
-                    <a href="#" data-value="4">Being a positive role model for peers </a>
-                    <a href="#" data-value="3">Demonstrating resilience in the face of challenges </a>
+                <div class="positive">
+                    <input type="radio" id="upvote" name="review_type" value="positive">
+                    <label for="upvote">Positive</label>
+                </div>
+                <div class="negative">
+                    <input type="radio" id="downvote" name="review_type" value="negative">
+                    <label for="downvote">Negative</label>
                 </div>
             </div>
-
-            <div class="dropdown">
-                <span>Respect</span>
-                <div class="dropdown-content">
-                    <a href="#" data-value="3">Respecting diverse viewpoints </a>
-                    <a href="#" data-value="3">Showing appreciation for others' efforts </a>
-                    <a href="#" data-value="3"> Demonstrating empathy towards peers  </a>
-                    <a href="#" data-value="3">Demonstrating self-discipline and self-control </a>
-                    <a href="#" data-value="5">Demonstrating a growth mindset towards learning and improvement</a>
-                    <a href="#" data-value="1">Demonstrating good sportsmanship</a>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <span>Punctuality</span>
-                <div class="dropdown-content">
-                    <a href="#" data-value="3">Consistently meeting deadlines </a>
-                    <a href="#" data-value="3">Being consistently late or frequently absent </a>
-                    <a href="#" data-value="5">Showing initiative in seeking additional learning opportunities </a>
-                    <a href="#" data-value="4">Showing enthusiasm for learning </a>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <span>Participation</span>
-                <div class="dropdown-content">
-                    <a href="#" data-value="3">Active participation in class discussions</a>
-                    <a href="#" data-value="2">Actively engaging in extracurricular activities</a>
-                    <a href="#" data-value="4">Actively listening to classmates and teachers</a>
-                    <a href="#" data-value="2">Showing curiosity and asking questions</a>
-                    <a href="#" data-value="2">Seeking help when needed</a>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <span>Teamwork</span>
-                <div class="dropdown-content">
-                    <a href="#" data-value="3">Contribution to group projects and activities</a>
-                    <a href="#" data-value="3">Willingness to help classmates</a>
-                </div>
-            </div>
-            </div>
-            <div class="negative">
-              <h3 class="heads">Negative</h3>
-              <div class="dropdown">
-                  <span>Disruption</span>
-                  <div class="dropdown-content">
-                      <a href="#" data-value="-3">Disrupting class by talking out of turn </a>
-                      <a href="#" data-value="-3">Making disruptive noises during class </a>
-                      <a href="#" data-value="-2">Creating distractions during class </a>
-                  </div>
-              </div>
-
-              <div class="dropdown">
-                  <span>Attendance and Preparedness</span>
-                  <div class="dropdown-content">
-                      <a href="#" data-value="-3">Being consistently late or frequently absent</a>
-                      <a href="#" data-value="-1">Being unprepared for class or failing to bring necessary materials</a>
-                  </div>
-              </div>
-
-              <div class="dropdown">
-                  <span>Respect for Authority and Rules</span>
-                  <div class="dropdown-content">
-                      <a href="#" data-value="-3">Using electronic devices inappropriately during class </a>
-                      <a href="#" data-value="-3">Displaying defiance towards authority figures </a>
-                      <a href="#" data-value="-3">Refusing to follow instructions or complete assignments </a>
-                      <a href="#" data-value="-3">Showing disrespect towards school property </a>
-                      <a href="#" data-value="-4">Using inappropriate language or gestures </a>
-                      <a href="#" data-value="-2">Engaging in gossip or spreading rumors </a>
-                      <a href="#" data-value="-2">Exhibiting a lack of remorse for negative behavior</a>
-                      <a href="#" data-value="-3">Being uncooperative during group activities or projects</a>
-                  </div>
-              </div>
-
-              <div class="dropdown">
-                  <span>Interpersonal Behavior</span>
-                  <div class="dropdown-content">
-                      <a href="#" data-value="-5">Engaging in disrespectful behavior towards peers or teachers</a>
-                      <a href="#" data-value="-5">Exhibiting bullying behavior towards peers</a>
-                      <a href="#" data-value="-5">Engaging in cheating or dishonest behavior</a>
-                      <a href="#" data-value="-4">Exhibiting aggressive behavior towards peers </a>
-                      <a href="#" data-value="-3">Engaging in behavior that poses a safety risk to oneself or others </a>
-                      <a href="#" data-value="-3">Exhibiting a lack of empathy towards others</a>
-                      <a href="#" data-value="-4">Exhibiting a negative attitude towards learning or assignments </a>
-                  </div>
-              </div>
-            </div>
-              </div>
-          <input type="hidden" id="num" name="num" value="0">
+            <input type="hidden" id="num" name="num" value="0">
             <input type="hidden" id="points" name="points" value="0">
             <input type="hidden" id="details" name="details" value="">
-
-          <button id="create-review-btn" type="button">Create Personal Review</button>
-
-
-            <h3 id="pr" style="display: none;">Personal Review</h3>
-            <textarea name="manual-review" id="manual-review" placeholder="Personal Review" style="display: none;"></textarea>
-
-          <h3 class="sr">Selected Reviews</h3>
-          
-            <textarea name="selected-details" id="selected-details" placeholder="Selected Reviews"></textarea>
-
+        
+            <h3 class="sr">Comments</h3>
+            <textarea name="comments" id="comments" placeholder="Comments"></textarea>
+        
             <button type="submit">Submit</button>
         </form>
         
     </div>
 
     <script>
-
+        
+        let upvoteButton = document.getElementById('upvote');
+        let downvoteButton = document.getElementById('downvote');
+        upvoteButton.addEventListener('click', () => {
+            upvoteButton.classList.add('selected');
+            downvoteButton.classList.remove('selected');
+            upvoteButton.style.backgroundColor = "green";
+            downvoteButton.style.backgroundColor = "";
+        });
+        downvoteButton.addEventListener('click', () => {
+            downvoteButton.classList.add('selected');
+            upvoteButton.classList.remove('selected');
+            downvoteButton.style.backgroundColor = "red";
+            upvoteButton.style.backgroundColor = "";
+        });
       function fetchStudentName() {
           const studentID = document.getElementById('studentID').value;
 

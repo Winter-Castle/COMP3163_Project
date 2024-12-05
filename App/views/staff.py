@@ -19,7 +19,9 @@ staff_views = Blueprint('staff_views',
 Page/Action Routes
 '''
 
-@staff_views.route('/Profile', methods=['GET']) # This is the staff profile 
+
+
+@staff_views.route('/Home', methods=['GET']) # This is the staff profile 
 @login_required
 def get_StaffHome_page():
   staff_id = current_user.get_id()

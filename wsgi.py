@@ -4,10 +4,11 @@ from flask.cli import with_appcontext, AppGroup
 from App.database import db, get_migrate
 from App.main import create_app
 from App.models import Student
+import random
 from App.controllers import (
     create_student, create_staff,
     create_review, get_student_by_id,
-     get_staff_by_id,set_and_execute_sentiment_command
+     get_staff_by_id,set_and_execute_sentiment_command, create_command_history
   )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -23,15 +24,26 @@ def initialize():
   db.create_all()
 
 
-  #Creating students
-  create_student(
-                 full_name="Billy John",
-                 degree="Comp Sci"
-                 )
-  create_student(
-                 full_name="Jane Doe",
-                 degree="Comp Sci"
-                 )
+  # Creating students
+  create_student(full_name="Billy John", degree="Comp Sci")
+  create_student(full_name="Jane Doe", degree="Comp Sci")
+  create_student(full_name="Alice Smith", degree="Mathematics")
+  create_student(full_name="Bob Brown", degree="Physics")
+  create_student(full_name="Cathy Green", degree="Chemistry")
+  create_student(full_name="David White", degree="Biology")
+  create_student(full_name="Eva Black", degree="History")
+  create_student(full_name="Frank Yellow", degree="Geography")
+  create_student(full_name="Georgia Red", degree="Philosophy")
+  create_student(full_name="Henry Blue", degree="Economics")
+  create_student(full_name="Ivy Purple", degree="Political Science")
+  create_student(full_name="Jack Orange", degree="Psychology")
+  create_student(full_name="Karen Pink", degree="Sociology")
+  create_student(full_name="Leo Cyan", degree="Engineering")
+  create_student(full_name="Mona Magenta", degree="Business")
+  create_student(full_name="Nina Lime", degree="Finance")
+  create_student(full_name="Oscar Olive", degree="Art")
+  create_student(full_name="Paul Teal", degree="Music")
+  create_student(full_name="Quinn Violet", degree="Theater")
 
   #Creating staff
   create_staff(username="tim",
@@ -54,15 +66,40 @@ def initialize():
                email="Permanand.Mohan@sta.uwi.edu",
                password="password",
                faculty="FST")
-  
-  staff = 1
-  student1 = 1
-  create_review(staff, student1, "Behaves very well in class!",True )
-  student2 = 2
-  create_review(staff, student2, "Behaves very well in class!",True )
-  student3 = 3
-  create_review(staff, student3, "Behaves very well in class!",True )
-  print("Database initialized")
+
+  create_staff(username="john",
+               firstname="John",
+               lastname="Deo",
+               email="John.Deo@sta.uwi.edu",
+               password="password",
+               faculty="FST")
+
+  create_staff(username="james",
+               firstname="James",
+               lastname="Thomas",
+               email="James.Thomas@sta.uwi.edu",
+               password="password",
+               faculty="FST")
+
+  create_staff(username="richard",
+               firstname="Richard",
+               lastname="Rajkumar",
+               email="Richard.Rajkumar@sta.uwi.edu",
+               password="password",
+               faculty="FST")
+
+
+
+review_messages = ["Excellent participation!", "Needs improvement in assignments.", "Great teamwork!", "Outstanding performance in projects!", "Regularly submits assignments late.", "Shows leadership in group activities.", "Needs to focus more on lectures.", "Always on time!", "Frequently absent.", "Positive attitude towards learning."]
+
+for student_id in range(1, 15):
+    staff_id = random.randint(1, 3)
+    message = random.choice(review_messages)
+    is_positive = random.choice([True, False])
+    review = create_review(staff_id, student_id, message, is_positive)
+    create_command_history(review.ID)
+
+print("Database initialized")
 
 
 

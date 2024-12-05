@@ -81,13 +81,11 @@
       .student-info-card {
           width: 400px;
           max-width: 90%; /* Ensure the card doesn't exceed 90% of the viewport width */
-          height: 510px; /* Allow the height to adjust based on content */
-          padding: 1.5rem; /* Use rem units for padding */
+          height: 150px; /* Allow the height to adjust based on content */
+          padding: 2.5rem; /* Use rem units for padding */
           background-color: #fff;
           border-radius: 10px;
           margin: 220px auto 0; /* Center the card horizontally */
-          border: 2px solid #051d3c;
-          position: relative;
           font-family: "Kanit", sans-serif;
           font-weight: 1000;
           font-style: italic;
@@ -278,7 +276,6 @@
     color: #051d3c;
     display: flex;
    justify-content: center;
-   position:absolute;
     top: 300px;
     right: -950px; /* Center items horizontally */
 }
@@ -450,6 +447,50 @@
           align-content: center;
       }
 
+      .recommendation-form {
+          max-width: 800px;
+          margin: 16vh auto 100px;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 5px;
+          position: relative;
+          display: flex; /* Use flexbox */
+          flex-direction: column; /* Arrange children vertically */
+          align-items: center; /* Center children horizontally */
+      }
+        .recommendation-form h2 {
+            text-align: center;
+            color: #051d3c;
+        }
+        .recommendation-form input,
+        .recommendation-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        textarea{
+          height: 200px;
+        }
+        .recommendation-form button {
+            background-color: #051d3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+          margin-top: 50px;
+        }
+
+      .recommendation-form img {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 20px; /* Add margin to space out from other elements */
+      }
 
     </style>
 </head>
@@ -470,100 +511,28 @@
 </header>
  
 
-<div class="student-info-card">
+<div class="recommendation-form"">
 
-    <nav class="student-info">
+    <form action="/createNewStudent" method="post">
       <div class="block text-gray-700 font-semibold">
-          <span class="font-bold">Student Name: {{ student.fullname }}</span>
+        <span class="font-bold">Student Full Name: </span>
+          <input type="text" value="" class="font-bold" id="fullName" name="fullName" size="20px">
       </div>
       <div class="block text-gray-700 font-semibold">
-          <span class="font-bold">Student ID: {{ student.UniId }}</span>
+         Email: <input type="text" value="" name="email" size="38px">
       </div>
-    <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/GPA.png?raw=true" alt="GPA Icon" class="mini-icon"> GPA: {{ student.gpa }}
-    </div>
+      <div class="block text-gray-700 font-semibold">
+        Degree: <input type="text" value="" name="degree" size="36px">
+      </div>
+      <button type="submit">Add Student</button>
+    </form>
 
-      <div class="block text-gray-700 font-semibold">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/email.png?raw=true" alt="Email Icon" class="mini-icon"> Email: {{ student.email }}
-      </div>
-      <div class="block text-gray-700 font-semibold">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/degreeprogram.png?raw=true" alt="Programme Icon" class="mini-icon"> Degree: {{ student.degree }}
-      </div>
-    <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Leaderboard.png?raw=true" alt="Leaderboard Icon" class="mini-icon"> Leaderboard Rank: {{ karma.rank}}
-    </div>
-      <div class="block text-gray-700 font-semibold">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Points.png?raw=true" alt="Points Icon" class="mini-icon"> Academic Points:  {{ karma.academicPoints}} 
-      </div>
-    <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Points.png?raw=true" alt="Points Icon" class="mini-icon"> Review Points: {{ karma.reviewsPoints}} 
-    </div>
-      <div class="block text-gray-700 font-semibold">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Points.png?raw=true" alt="Points Icon" class="mini-icon"> Achievement Points: {{ karma.accomplishmentPoints}}
-      </div>
-      <div class="block text-gray-700 font-semibold">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Points.png?raw=true" alt="Points Icon" class="mini-icon"> Total Points: {{ karma.points}}
-      </div>
-    <!-- <div class="block text-gray-700 font-semibold">
-        <img src="yearofstudy.png" alt="Year Icon" class="mini-icon"> Year of Study: No
-    </div> -->
-    <!-- <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/admittedterm.png?raw=true" alt="Admitted Term Icons" class="mini-icon"> <a>Admitted Term: {{ student.admittedTerm }}</a>
-    </div> -->
+
 </nav>
 
-<div class="badges-container">
-    <div class="badges-card">
-        <div class="badgestitle">Badges</div>
-        <div class="badge-section">
-          {% for badge in student.badges[-3:] %}
-            <div class="badge-image-container">
-              <img src={{badge.imageLink}} alt="Badge placeholder" class="badge-image">
-            </div>
-            {% endfor %}
-        </div>
-        <div class="center">
-            <a href="/view-all-badges-staff/{{student.ID}}" class="view-all-badges">
-                <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
-                <p class="content"><strong>View All Badges</strong></p>
-            </a>
-        </div>
-    </div>
-</div>
-  
+
   <div class="rcontainer">
 
-<div class="reviews-container2">
-    <div class="reviews-card">
-    <h1>Achievements</h1>
-      <a href="/view-all-student-achievements/{{student.UniId}}" class="view-all-reviews">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
-          <p class="content"><strong>View All Achievements</strong></p>
-      </a>
-    </div>
-</div>
-
-    <div class="reviews-container">
-
-        <div class="reviews-card">
-        <h1>Reviews</h1>
-          <a href="/view-all-student-reviews/{{student.UniId}}" class="view-all-reviews">
-              <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
-            <p class="content"><strong>View All Reviews</strong></p>
-          </a>
-        </div>
-    </div>
-
-<div class="reviews-container3">
-    <div class="reviews-card">
-
-    <h1>Incidents</h1>
-      <a href="/view-all-student-incidents/{{student.UniId}}" class="view-all-reviews">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
-          <p class="content"><strong>View All Incidents</strong></p>
-      </a>
-    </div>
-</div>
 
   </div>
 <!-- Rest of your content -->

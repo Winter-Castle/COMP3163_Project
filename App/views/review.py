@@ -1,9 +1,12 @@
 from flask import Blueprint, request, jsonify, render_template
 from flask_login import login_required, current_user
+from flask import redirect, url_for
 from App.controllers import (
     create_review, get_review, update_review, delete_review, 
     get_reviews_by_student, get_reviews_by_staff, get_review_statistics, 
-    update_review_sentiment, get_all_reviews
+    update_review_sentiment, get_all_reviews, get_student_by_id,
+    set_and_execute_sentiment_command_obj,create_command_history
+
 )
 
 review_views = Blueprint('review_views', __name__)
@@ -12,6 +15,8 @@ review_views = Blueprint('review_views', __name__)
 Page/Action Routes
 '''
 
+
+
 @review_views.route('/reviews', methods=['GET'])
 @login_required
 def reviews_page():
@@ -19,32 +24,37 @@ def reviews_page():
     Return all reviews for the current staff member.
     """
     staff_id = current_user.get_id()
-    reviews = get_all_reviews()
-    return render_template('AllStudentReviews.html', reviews=reviews)
+    reviews = get_reviews_by_staff(staff_id)
+    reviews_with_students = []
+    for review in reviews:
+        student = get_student_by_id(review.taggedStudentID)
+        reviews_with_students.append((review, student))
+    return render_template('AllStudentReviews.html', reviews=reviews_with_students)
 
-@review_views.route('/createReview', methods=['POST'])
+@review_views.route('/createReview', methods=['GET', 'POST'])
 @login_required
 def create_review_action():
     """
-    Handle the creation of a new review.
+    Handle displaying the review creation page (GET) and creating a new review (POST).
     """
-    staff_id = current_user.get_id()
-    data = request.json
-    student_id = data.get('taggedStudentID')
-    details = data.get('details')
-    is_positive = data.get('isPositive', False)
+    if request.method == 'POST':
+        # Handle POST request: create a new review
+        staff_id = current_user.get_id()
+        data = request.form
+        student_id = data.get('studID')
+        details = data.get('comments')
+        is_positive = data.get('upvote', False)
+        review = set_and_execute_sentiment_command_obj(student_id, staff_id, "upvote" if is_positive else "downvote")
+        update_review(review.ID, student_id, staff_id, details, is_positive)
+        if review:
+            create_command_history(review.ID)
+            return redirect(url_for('staff_views.get_StaffHome_page'))
+        else:
+            return redirect(url_for('staff_views.get_StaffHome_page'))
 
-    review = create_review(
-        taggedStudentID=student_id, 
-        createdByStaffID=staff_id, 
-        details=details, 
-        isPositive=is_positive
-    )
+    # Handle GET request: render the CreateReview.html page
+    return render_template('CreateReview.html')
 
-    if review:
-        return jsonify({"message": f"Review created successfully for Student ID {student_id}.", "review": review.to_json()}), 201
-    else:
-        return jsonify({"error": f"Failed to create review for Student ID {student_id}."}), 400
 
 @review_views.route('/editReview/<int:review_id>', methods=['PUT'])
 @login_required

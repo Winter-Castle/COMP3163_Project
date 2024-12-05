@@ -2,13 +2,36 @@ from flask import Blueprint, render_template, jsonify, request
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import login_required, current_user
 from App.models import Student, User
-from App.controllers import get_student_by_id, get_student_reviews, update_student, delete_student, get_all_students, get_all_students_json, create_student, get_student_by_full_name
+from App.controllers import get_student_by_id, get_review,get_student_reviews, update_student, delete_student, get_all_students, get_all_students_json, create_student, get_student_by_full_name
+from App.controllers import (
+    get_review_statistics
+)
+
+from flask import redirect, url_for, flash
 
 student_views = Blueprint('student_views', __name__, template_folder='../templates')
 
 '''
 Page/Action Routes
 '''
+
+@student_views.route('/addstudentpage', methods=['GET'])
+@login_required
+def add_student_page():
+    return render_template('addStudent.html')
+
+@student_views.route('/createNewStudent', methods=['POST'])
+@login_required
+def create_student_page():
+    data = request.form
+    print(data)
+    student = create_student(data['fullName'], data['degree'])
+    if student:
+        flash("Student created!")
+        return redirect(url_for('staff_views.get_StaffHome_page'))
+    else:
+        flash("Error creating student!")
+        return redirect(url_for('staff_views.get_StaffHome_page'))
 #changes I made for postman
 @student_views.route('/api/student', methods=['POST'])
 def create_student_endpoint():
@@ -82,16 +105,16 @@ def get_student_reviews_action(student_id):
 
 ######
 
-@student_views.route('/StudentHome', methods=['GET'])
-@login_required
-def student_home_page():
-    """
-    Render the student home page.
-    """
-    student = get_student_by_id(current_user.ID)
-    if student:
-        return render_template('Student-Home.html', student=student)
-    return render_template('Student-Home.html', error="Student not found.")
+# @student_views.route('/StudentHome', methods=['GET'])
+# @login_required
+# def student_home_page():
+#     """
+#     Render the student home page.
+#     """
+#     student = get_student_by_id(current_user.ID)
+#     if student:
+#         return render_template('Student-Home.html', student=student)
+#     return render_template('Student-Home.html', error="Student not found.")
 
 @student_views.route('/student_dashboard', methods=['GET'])
 @login_required
@@ -118,9 +141,7 @@ def view_all_reviews():
 @student_views.route('/api/view-all-reviews', methods=['GET'])
 @jwt_required()
 def view_all_reviews_api():
-    """
-    API to retrieve all reviews for the current student.
-    """
+
     student = get_student_by_id(jwt_current_user.ID)
     if student:
         reviews = get_student_reviews(student.ID)
@@ -145,9 +166,7 @@ def view_all_reviews_api():
 @student_views.route('/api/student-page', methods=['GET'])
 @jwt_required()
 def student_page_api():
-    """
-    API to retrieve details of the current student.
-    """
+
     student = get_student_by_id(jwt_current_user.ID)
     if student:
         return jsonify(student.to_json()), 200
@@ -155,14 +174,12 @@ def student_page_api():
 
 @student_views.route('/view-all-students', methods=['GET'])
 def view_all_students_page():
-    """
-    Render a page showing all students.
-    """
     try:
         students = Student.query.all()  # Fetch all students from the database
         if students:
-            return render_template('Student-Home.html', students=students)
-        return render_template('Student-Home.html', error="No students found.")
+            studentsList = [[student, get_review_statistics(student.ID)] for student in students]
+            return render_template('StudentsList.html', students=studentsList)
+        return render_template('StudentsList.html', error="No students found.")
     except Exception as e:
         print(f"[student_views.view_all_students_page] Error: {str(e)}")
-        return render_template('Student-Home.html', error="Failed to retrieve students.")
+        return render_template('StudentsList.html', error="Failed to retrieve students.")

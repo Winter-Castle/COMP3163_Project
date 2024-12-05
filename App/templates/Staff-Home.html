@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Conduct Tracker - Staff Home</title>
-  <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png">
+  <!-- <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png"> -->
 
   <style>
     .popup {
@@ -74,8 +74,8 @@
       position: absolute; /* Position it absolutely within header */
       right: 670px; /* Align to the right */
       bottom: -430px; /* Let it overlap into the body */
-  
-
+      
+      opacity: 0.5;
       background: url("https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true") center/cover no-repeat;
     }
 
@@ -290,7 +290,7 @@
 </head>
 <body>
 
-{% block content %}
+
 <header>
   <div class="logo">
     <h1>UWI</h1> <!-- Updated to have text inside -->
@@ -298,30 +298,44 @@
   <div class="logo2"><h2>Student Conduct Tracker</h2></div>
   <ul class="nav-bar">
     <!-- Adjusted to only have the left side curved -->
-    <li><a href="#">Home</a></li>
+    <li><a href="/Home">Home</a></li>
     <li><a href="/logout">Logout</a></li>
   </ul>
   <div class="user-avatar"></div> <!-- Changed to a div with background for better control -->
 </header>
-{% endblock content %}
+
 <main class="main-content">
-<span class="text">Student </span>
-<span class="text2">Tracker</span>
-<span class="text3">Conduct</span>
-
-
-
-
+  {% block content %}
+    <span class="text">Student </span>
+    <span class="text2">Tracker</span>
+    <span class="text3">Conduct</span>
+  {% endblock content %}
 </main>
 
-<div class="gradient-box" style="flex-direction: column;">
-  <a href="/mainReviewPage" class="image-link">
+<div class="gradient-box" style="flex-direction: row;">
+  <a href="/createReview" class="image-link">
     <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Create Review">
     <span class="text4"> Create Review </span>
   </a>
   <a href="/studentSearch" class="image-link">
     <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Student Search">
     <span class="text4"> Student Search </span>
+  </a>
+  <a href="/view-all-students" class="image-link">
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/user.png?raw=true" alt="Student Search">
+    <span class="text4"> View Students </span>
+  </a>
+  <a href="/viewHistoryPage" class="image-link">
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/fixes/General.png?raw=true" alt="Student Search">
+    <span class="text4"> View History </span>
+  </a>
+  <a href="/reviews" class="image-link">
+    <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/proposed.png?raw=true" alt="Student Search">
+    <span class="text4"> My Reviews </span>
+  </a>
+  <a href="/addstudentpage" class="image-link">
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/admittedterm.png?raw=true" alt="Student Search">
+    <span class="text4"> Add Student </span>
   </a>
   <!-- <a href="/reviewSearch" class="image-link">
     <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Leaderboard">
